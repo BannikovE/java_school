@@ -17,6 +17,11 @@ public class ProductServiceImpl implements ProductService{
     private CategoryDAO categoryDAO;
 
     @Autowired
+    public void setCategoryDAO(CategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
+    }
+
+    @Autowired
     public void setProductDAO(ProductDAO productDAO) {
         this.productDAO = productDAO;
     }
@@ -33,14 +38,12 @@ public class ProductServiceImpl implements ProductService{
         return productDAO.productCount();
     }
 
-//    TODO: связь с категориДАО, вынуть категорию по ид и вставить через сет в этом методе,
-//     а потом уже добавить
     @Transactional
     @Override
-    public void add(Product product) {
+    public int add(Product product) {
         Category category = categoryDAO.getCategoryById(product.getCategoryId());
         product.setCategory(category);
-        productDAO.add(product);
+        return productDAO.add(product);
     }
 
     @Transactional

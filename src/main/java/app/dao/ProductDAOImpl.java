@@ -32,9 +32,9 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
-    public void add(Product product) {
+    public int add(Product product) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(product);
+        return (int) session.save(product);
     }
 
     @Override

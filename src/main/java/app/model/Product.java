@@ -5,18 +5,27 @@ import javax.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
-//    public Product() {
-//    }
+
+    public Product() {
+    }
+
+    public Product(String name, int price, int size, String brand, String color, Category category) {
+        this.name = name;
+        this.price = price;
+        this.size = size;
+        this.brand = brand;
+        this.color = color;
+        this.category = category;
+    }
+
     @Id
-    @Column (name = "product_id")
-    @GeneratedValue
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
     @Column
     private int price;
-//    @Column (name = "category_id")
-//    private int category;
     @Column
     private int size;
     @Column
@@ -71,15 +80,6 @@ public class Product {
         this.color = color;
     }
 
-//    public Product(int id, String name, int price, Category category, int size, String brand, String color) {
-//        this.id = id;
-//        this.name = name;
-//        this.price = price;
-//        this.category = category;
-//        this.size = size;
-//        this.brand = brand;
-//        this.color = color;
-//    }
     public String getName() {
         return name;
     }

@@ -5,16 +5,23 @@ import app.model.Product;
 import app.sevice.CategoryService;
 import app.sevice.ProductService;
 import app.sevice.ProductServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
 public class ProductController {
+
+    public static final Logger log = LoggerFactory.getLogger("ProductController");
+
     private int page;
     private ProductService productService;
     private CategoryService categoryService;
@@ -79,12 +86,16 @@ public class ProductController {
         return modelAndView;
     }
 
-    //TODO сделать в категорииДАО метод, который getCategoryById(id)
     @PostMapping(value = "/add")
-    public ModelAndView addProduct(Product product){
+    public ModelAndView addProduct(Product product, HttpServletRequest request, HttpServletResponse response){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/?page=" + this.page);
-        productService.add(product);
+        try {
+            int resultId = productService.add(product);
+            log.info("Created product with id {}", resultId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
         return modelAndView;
     }
 

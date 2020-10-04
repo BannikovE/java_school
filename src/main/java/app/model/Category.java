@@ -8,15 +8,32 @@ import java.util.Objects;
 @Entity
 @Table(name = "categories")
 public class Category {
-//    public Category() {
-//    }
+
+    public Category() {
+    }
+
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @Id
-    @GeneratedValue
-    @Column(name = "category_id")
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public int getId() {
         return id;
@@ -33,11 +50,6 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public Category(int id, String name) {
-//        this.id = id;
-//        this.name = name;
-//    }
 
     @Override
     public String toString() {
