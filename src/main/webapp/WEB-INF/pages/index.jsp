@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: mi
@@ -31,10 +32,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="/products">Products</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/products">Products</a>
             <a class="nav-link" href="#">Cart</a>
-            <a class="nav-link" href="/edit/">Edit</a>
-            <a class="nav-link" href="#">Login</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/edit/">Edit</a>
+            <a class="nav-link" href="/auth/login">Login</a>
         </div>
     </div>
     <div>

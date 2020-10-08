@@ -1,4 +1,4 @@
-package app.sevice;
+package app.service;
 
 import app.dao.CategoryDAO;
 import app.model.Category;

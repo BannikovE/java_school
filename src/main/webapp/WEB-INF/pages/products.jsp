@@ -15,6 +15,47 @@
 <body>
 
 <h2>Products</h2>
+<form action="<c:url value="/products/filter"/>" enctype="application/x-www-form-urlencoded" method="POST">
+    <table>
+        <tr>
+            <th>
+                <label for="name">name</label>
+                <input type="text" name="name" id="name">
+            </th>
+            <th>
+                <label for="price">price</label>
+                <input type="text" name="price" id="price">
+            </th>
+            <th>
+                <label for="category">category</label>
+                <select name="category" id="category">
+                    <option value="">-----</option>
+                    <c:forEach var="category" items="${categoryList}">
+                        <option value="${category.id}">${category.name}</option>
+                    </c:forEach>
+                </select>
+            </th>
+            <th>
+                <label for="size">size</label>
+                <input type="text" name="size" id="size">
+            </th>
+            <th>
+                <label for="brand">brand</label>
+                <input type="text" name="brand" id="brand">
+            </th>
+            <th>
+                <label for="color">color</label>
+                <input type="text" name="color" id="color">
+            </th>
+            <th>
+                <label for="action">action</label>
+                <input type="text" name="action" id="action">
+            </th>
+        </tr>
+    </table>
+    <button type="submit" value="Filter">Filter</button>
+    <input type="reset" value="Reset">
+</form>
 <table>
     <tr>
         <th>id</th>
@@ -42,7 +83,7 @@
         </tr>
     </c:forEach>
     <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
-        <c:url value="/" var="url">
+        <c:url value="/products" var="url">
             <c:param name="page" value="${i.index}"/>
         </c:url>
         <a href="${url}">${i.index}</a>

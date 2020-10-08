@@ -1,6 +1,7 @@
 package app.dao;
 
 import app.model.Product;
+import app.model.ProductFilter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,12 @@ public class ProductDAOImpl implements ProductDAO{
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Product> allProducts(int page) {
+    public List<Product> allProducts(int page, ProductFilter filter) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Product ")
+        if (filter == null) {
+            return session.createQuery("from Product").setFirstResult(10 * (page - 1)).setMaxResults(10).list();
+        }
+        return session.createQuery("from Product where " + filter.getQuery()).setProperties(filter)
                 .setFirstResult(10 * (page - 1)).setMaxResults(10).list();
     }
 

@@ -1,10 +1,10 @@
-package app.sevice;
+package app.service;
 
 import app.dao.CategoryDAO;
 import app.dao.ProductDAO;
-import app.dao.ProductDAOImpl;
 import app.model.Category;
 import app.model.Product;
+import app.model.ProductFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +28,11 @@ public class ProductServiceImpl implements ProductService{
 
     @Transactional
     @Override
-    public List<Product> allProducts(int page) {
-        return productDAO.allProducts(page);
+    public List<Product> allProducts(int page, ProductFilter filter) {
+        if (filter != null && !filter.isEmpty()) {
+            return productDAO.allProducts(page, filter);
+        }
+        return productDAO.allProducts(page, null);
     }
 
     @Transactional

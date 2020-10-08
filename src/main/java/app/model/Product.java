@@ -5,29 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
-
-    public Product() {
-    }
-
-    public Product(String name, int price, int size, String brand, String color, Category category) {
-        this.name = name;
-        this.price = price;
-        this.size = size;
-        this.brand = brand;
-        this.color = color;
-        this.category = category;
-    }
-
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column
     private String name;
     @Column
-    private int price;
+    private Integer price;
     @Column
-    private int size;
+    private Integer size;
     @Column
     private String brand;
     @Column
@@ -37,13 +24,25 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
     @Transient
-    private int categoryId;
+    private Integer categoryId;
 
-    public int getCategoryId() {
+    public Product() {
+    }
+
+    public Product(String name, Integer price, Integer size, String brand, String color, Category category) {
+        this.name = name;
+        this.price = price;
+        this.size = size;
+        this.brand = brand;
+        this.color = color;
+        this.category = category;
+    }
+
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -88,31 +87,27 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public Category getCategory() {
         return category;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }

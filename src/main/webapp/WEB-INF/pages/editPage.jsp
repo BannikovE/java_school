@@ -33,11 +33,11 @@
     <label for="price">Price</label>
     <input type="text" name="price" id="price">
     <label for="categoryId">Category</label>
-<%--    <input type="text" name="category" id="category">--%>
     <select name="categoryId" id="categoryId">
-        <option value="${categoryList.get(0).id}">Jeans</option>
-        <option value="${categoryList.get(1).id}">Shirt</option>
-        <option value="${categoryList.get(2).id}">T-Shirt</option>
+        <option value="">-----</option>
+        <c:forEach var="category" items="${categoryList}">
+            <option value="${category.id}">${category.name}</option>
+        </c:forEach>
     </select>
     <label for="size">Size</label>
     <input type="text" name="size" id="size">

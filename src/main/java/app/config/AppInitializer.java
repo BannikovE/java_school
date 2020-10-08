@@ -28,4 +28,6 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
         characterEncodingFilter.setForceEncoding(true);
         return new Filter[]{characterEncodingFilter};
     }
+
+
 }

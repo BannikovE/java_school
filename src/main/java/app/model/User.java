@@ -1,11 +1,14 @@
 package app.model;
 
+import app.model.enums.UserRole;
+import app.model.enums.UserStatus;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -20,17 +23,52 @@ public class Client {
     private String email;
     @Column
     private String password;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
-        return "Client{" +
+        return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", role=" + role +
+                ", status=" + status +
                 '}';
+    }
+
+    public User(String firstName, String lastName, Date dateOfBirth, String email,
+                String password, UserRole role, UserStatus status) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.status = status;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public int getId() {
@@ -77,14 +115,7 @@ public class Client {
         this.password = password;
     }
 
-    public Client() {
+    public User() {
     }
 
-    public Client(String firstName, String lastName, Date dateOfBirth, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.email = email;
-        this.password = password;
-    }
 }
