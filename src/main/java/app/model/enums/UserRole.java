@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public enum UserRole {
+    ANONYMOUS(Collections.unmodifiableSet(EnumSet.of(Permission.READ))),
     USER(Collections.unmodifiableSet(EnumSet.of(Permission.READ))),
     ADMIN(Collections.unmodifiableSet(EnumSet.allOf(Permission.class)));
 
@@ -19,7 +20,7 @@ public enum UserRole {
         return permissions;
     }
 
-    public Set<SimpleGrantedAuthority> getAuthorities(){
+    public Set<SimpleGrantedAuthority> getAuthorities() {
         return getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                 .collect(Collectors.toSet());

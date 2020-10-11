@@ -3,8 +3,10 @@ package app.controller;
 import app.model.Category;
 import app.model.Product;
 import app.model.ProductFilter;
+import app.model.User;
 import app.service.CategoryService;
 import app.service.ProductService;
+import app.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +38,10 @@ public class ProductController {
     }
 
     @GetMapping("/")
-    public ModelAndView mainPage(){
+    public ModelAndView mainPage(@ModelAttribute("user") User user){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
+        modelAndView.addObject("user", user);
         return modelAndView;
     }
 

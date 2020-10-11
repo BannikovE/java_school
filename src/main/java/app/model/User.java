@@ -19,10 +19,14 @@ public class User {
     private String lastName;
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
+    @Transient
+    private String stringDateOfBirth;
     @Column
     private String email;
     @Column
     private String password;
+    @Transient
+    private String passwordConfirm;
     @Column
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -61,6 +65,22 @@ public class User {
         this.password = password;
         this.role = role;
         this.status = status;
+    }
+
+    public String getStringDateOfBirth() {
+        return stringDateOfBirth;
+    }
+
+    public void setStringDateOfBirth(String stringDateOfBirth) {
+        this.stringDateOfBirth = stringDateOfBirth;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public UserRole getRole() {

@@ -1,9 +1,13 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-
-
-<html lang="en">
+<%--
+  Created by IntelliJ IDEA.
+  User: mi
+  Date: 09.10.2020
+  Time: 15:13
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,7 +23,7 @@
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <title>Sign Up Customer</title>
+    <title>Profile</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -30,45 +34,36 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
-            <a class="nav-link active" href="${pageContext.request.contextPath}/products">Products</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/products">Products</a>
             <a class="nav-link" href="#">Cart</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/auth/login">Login</a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/profile">Profile</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/profile">Profile</a>
         </div>
     </div>
 </nav>
-<div>
-    <form:form method="POST" modelAttribute="userForm">
-        <h2>Registration</h2>
-        <div>
-            <form:input type="text" path="email" placeholder="Username"
-                        autofocus="true"></form:input>
-            <form:errors path="email"></form:errors>
-                ${usernameError}
-        </div>
-        <div>
-            <form:input type="password" path="password" placeholder="Password"></form:input>
-        </div>
-        <div>
-            <form:input type="password" path="passwordConfirm"
-                        placeholder="Confirm your password"></form:input>
-            <form:errors path="password"></form:errors>
-                ${passwordError}
-        </div>
-        <div>
-            <form:input type="text" path="firstName" placeholder="First Name"
-                        autofocus="true"></form:input>
-        </div>
-        <div>
-            <form:input type="text" path="lastName" placeholder="Last Name"
-                        autofocus="true"></form:input>
-        </div>
-        <div>
-            <form:input type="date" path="stringDateOfBirth" placeholder="Date Of Birth"
-                        autofocus="true"></form:input>
-        </div>
-        <button type="submit">Sign Up</button>
-    </form:form>
-</div>
+<table>
+    <tr>
+        <th>id</th>
+        <th>first name</th>
+        <th>last name</th>
+        <th>date of birth</th>
+        <th>email</th>
+        <th>password</th>
+        <th>role</th>
+        <th>status</th>
+    </tr>
+<%--    <c:param name="user" value="&{user}">--%>
+        <tr>
+            <td>${user.id}</td>
+            <td>${user.firstName}</td>
+            <td>${user.lastName}</td>
+            <td>${user.dateOfBirth}</td>
+            <td>${user.email}</td>
+            <td>${user.password}</td>
+            <td>${user.role}</td>
+            <td>${user.status}</td>
+        </tr>
+<%--    </c:param>--%>
+</table>
 </body>
 </html>

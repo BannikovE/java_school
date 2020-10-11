@@ -1,5 +1,10 @@
 package app.model;
 
+import app.model.enums.DeliveryMethod;
+import app.model.enums.OrderStatus;
+import app.model.enums.PaymentMethod;
+import app.model.enums.PaymentState;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,94 +13,86 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
-    @Column(name = "pay_method_id")
-    private int payMethodId;
-    @Column(name = "delivery_method_id")
-    private int deliveryMethodId;
-    @Column(name = "order_status_id")
-    private int orderStatusId;
-    @Column(name = "pay_state_id")
-    private int payStateId;
+    private Integer id;
+    @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+    @Column(name = "delivery_method")
+    @Enumerated(EnumType.STRING)
+    private DeliveryMethod deliveryMethod;
+    @Column(name = "order_status")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+    @Column(name = "payment_state")
+    @Enumerated(EnumType.STRING)
+    private PaymentState paymentState;
     @Column(name = "address_id")
-    private int addressId;
-    @Column(name = "client_id")
-    private int clientId;
+    private Integer addressId;
+    @Column(name = "user_id")
+    private Integer clientId;
 
     public Order() {
     }
 
-    public Order(int payMethodId, int deliveryMethodId, int orderStatusId, int payStateId, int addressId, int clientId) {
-        this.payMethodId = payMethodId;
-        this.deliveryMethodId = deliveryMethodId;
-        this.orderStatusId = orderStatusId;
-        this.payStateId = payStateId;
+    public Order(PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, OrderStatus orderStatus,
+                 PaymentState paymentState, Integer addressId, Integer clientId) {
+        this.paymentMethod = paymentMethod;
+        this.deliveryMethod = deliveryMethod;
+        this.orderStatus = orderStatus;
+        this.paymentState = paymentState;
         this.addressId = addressId;
         this.clientId = clientId;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", payMethodId=" + payMethodId +
-                ", deliveryMethodId=" + deliveryMethodId +
-                ", orderStatusId=" + orderStatusId +
-                ", payStateId=" + payStateId +
-                ", addressId=" + addressId +
-                ", clientId=" + clientId +
-                '}';
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getPayMethodId() {
-        return payMethodId;
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setPayMethodId(int payMethodId) {
-        this.payMethodId = payMethodId;
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
-    public int getDeliveryMethodId() {
-        return deliveryMethodId;
+    public DeliveryMethod getDeliveryMethod() {
+        return deliveryMethod;
     }
 
-    public void setDeliveryMethodId(int deliveryMethodId) {
-        this.deliveryMethodId = deliveryMethodId;
+    public void setDeliveryMethod(DeliveryMethod deliveryMethod) {
+        this.deliveryMethod = deliveryMethod;
     }
 
-    public int getOrderStatusId() {
-        return orderStatusId;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setOrderStatusId(int orderStatusId) {
-        this.orderStatusId = orderStatusId;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    public int getPayStateId() {
-        return payStateId;
+    public PaymentState getPaymentState() {
+        return paymentState;
     }
 
-    public void setPayStateId(int payStateId) {
-        this.payStateId = payStateId;
+    public void setPaymentState(PaymentState paymentState) {
+        this.paymentState = paymentState;
     }
 
-    public int getAddressId() {
+    public Integer getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(int addressId) {
+    public void setAddressId(Integer addressId) {
         this.addressId = addressId;
     }
 
-    public int getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(int clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 }

@@ -1,12 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: mi
-  Date: 27.09.2020
-  Time: 14:24
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><html>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page language="java" contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
+<html>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -31,16 +26,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/">Home</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/products">Products</a>
             <a class="nav-link" href="#">Cart</a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/edit/">Edit</a>
-            <a class="nav-link" href="/auth/login">Login</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/auth/login">Login</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/profile">Profile</a>
         </div>
     </div>
-    <div>
-        <h1>Main page</h1>
-    </div>
 </nav>
+<div>
+    <h3>${pageContext.request.userPrincipal.name}</h3>
+    <sec:authorize access="!isAuthenticated()">
+        <h4><a href="/auth/login">Sign In</a></h4>
+        <h4><a href="/auth/signUp">Sign Up</a></h4>
+    </sec:authorize>
+    <sec:authorize access="isAuthenticated()">
+        <h4><a href="/auth/logout">Logout</a></h4>
+    </sec:authorize>
+</div>
 </body>
 </html>
