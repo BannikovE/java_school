@@ -73,6 +73,8 @@
     <input type="text" name="brand" id="brand">
     <label for="color">Color</label>
     <input type="text" name="color" id="color">
+    <label for="quantityInStock">Quantity In Stock</label>
+    <input type="text" name="quantityInStock" id="quantityInStock">
     <c:if test="${empty product.name}">
         <input type="submit" value="Add new product">
     </c:if>

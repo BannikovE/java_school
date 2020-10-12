@@ -10,11 +10,13 @@ public class ProductFilter {
     private String brand;
     private String color;
     private Integer category;
+    private Integer quantityInStock;
 
     public ProductFilter() {
     }
 
-    public ProductFilter(Integer id, String name, Integer price, Integer size, String brand, String color, Integer category) {
+    public ProductFilter(Integer id, String name, Integer price, Integer size,
+                         String brand, String color, Integer category, Integer quantityInStock) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -22,6 +24,15 @@ public class ProductFilter {
         this.brand = brand;
         this.color = color;
         this.category = category;
+        this.quantityInStock = quantityInStock;
+    }
+
+    public Integer getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setQuantityInStock(Integer quantityInStock) {
+        this.quantityInStock = quantityInStock;
     }
 
     public Integer getId() {
@@ -82,7 +93,7 @@ public class ProductFilter {
 
     public boolean isEmpty() {
         return id == null && name == null && price == null && size == null
-                && brand == null && color == null && category == null;
+                && brand == null && color == null && category == null && quantityInStock == null;
     }
 
     /**
@@ -131,6 +142,12 @@ public class ProductFilter {
                 sb.append(" and ");
             }
             sb.append("category.id").append(" =:").append("category");
+        }
+        if (this.quantityInStock != null) {
+            if (sb.length() > 0) {
+                sb.append(" and ");
+            }
+            sb.append("quantityInStock").append(" =:").append("quantityInStock");
         }
         return sb.toString();
     }

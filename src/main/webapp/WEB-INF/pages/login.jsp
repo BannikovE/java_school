@@ -34,7 +34,7 @@
 </nav>
 <div class="container">
     <form method="POST" action="/auth/login">
-        <h2>Вход в систему</h2>
+        <h2>Sign In</h2>
         <div>
             <input name="username" type="text" placeholder="Username"
                    autofocus="true"/>

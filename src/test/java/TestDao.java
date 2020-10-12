@@ -1,11 +1,7 @@
 import app.dao.ProductDAO;
 import app.dao.ProductDAOImpl;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.internal.SessionFactoryImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
 public class TestDao {
@@ -19,6 +15,6 @@ public class TestDao {
 
     @Test
     public void testDao() {
-        productDAO.getById(1);
+        productDAO.getProductById(1);
     }
 }

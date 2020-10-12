@@ -1,4 +1,4 @@
-package app.model;
+package app.model.cart;
 
 import app.model.enums.DeliveryMethod;
 import app.model.enums.OrderStatus;
@@ -6,40 +6,25 @@ import app.model.enums.PaymentMethod;
 import app.model.enums.PaymentState;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Entity
-@Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+public class OrderDTO {
     private Integer id;
-    @Column(name = "payment_method")
-    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
-    @Column(name = "delivery_method")
-    @Enumerated(EnumType.STRING)
     private DeliveryMethod deliveryMethod;
-    @Column(name = "order_status")
-    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-    @Column(name = "payment_state")
-    @Enumerated(EnumType.STRING)
     private PaymentState paymentState;
-    @Column(name = "address_id")
     private Integer addressId;
-    @Column(name = "user_id")
     private Integer clientId;
-    @Column
     private double amount;
-    @Column(name = "order_num")
     private Integer orderNum;
+    private List<OrderListDTO> list;
 
-    public Order() {
+    public OrderDTO() {
     }
 
-    public Order(Integer id, Integer addressId,
-                 Integer clientId, double amount, Integer orderNum) {
+    public OrderDTO(Integer id, Integer addressId,
+                    Integer clientId, double amount, Integer orderNum) {
         this.id = id;
         this.addressId = addressId;
         this.clientId = clientId;
@@ -47,24 +32,12 @@ public class Order {
         this.orderNum = orderNum;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public Integer getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
-    }
-
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public PaymentMethod getPaymentMethod() {
@@ -113,5 +86,29 @@ public class Order {
 
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public List<OrderListDTO> getList() {
+        return list;
+    }
+
+    public void setList(List<OrderListDTO> list) {
+        this.list = list;
     }
 }

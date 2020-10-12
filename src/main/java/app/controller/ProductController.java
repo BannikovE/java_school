@@ -6,7 +6,6 @@ import app.model.ProductFilter;
 import app.model.User;
 import app.service.CategoryService;
 import app.service.ProductService;
-import app.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,7 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public ModelAndView editPage(@PathVariable("id") int id){
         List<Category> categories = categoryService.allCategories();
-        Product product = productService.getById(id);
+        Product product = productService.getProductById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
         modelAndView.addObject("product", product);
@@ -103,7 +102,7 @@ public class ProductController {
     public ModelAndView deleteProduct(@PathVariable("id") int id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/products/?page=" + this.page);
-        Product product = productService.getById(id);
+        Product product = productService.getProductById(id);
         productService.delete(product);
         return modelAndView;
     }

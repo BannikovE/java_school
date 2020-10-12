@@ -2,6 +2,7 @@ package app.dao;
 
 import app.model.Product;
 import app.model.ProductFilter;
+import app.model.cart.ProductDTO;
 
 import java.util.List;
 
@@ -11,7 +12,9 @@ public interface ProductDAO {
     int add(Product product);
     void delete(Product product);
     void edit(Product product);
-    Product getById(int id);
+    Product getProductById(int id);
+    void save(ProductDTO productDTO);
+    ProductDTO getProductDTOById(int id);
 }
 
 

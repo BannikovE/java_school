@@ -2,6 +2,7 @@ package app.dao;
 
 import app.model.Product;
 import app.model.ProductFilter;
+import app.model.cart.ProductDTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,39 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
-    public Product getById(int id) {
+    public Product getProductById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Product.class, id);
+    }
+
+    @Override
+    public void save(ProductDTO productDTO) {
+        Product product = null;
+        boolean isNew = false;
+        Integer id = productDTO.getId();
+        if (id != null)
+            product = this.getProductById(id);
+        if (product == null){
+            isNew = true;
+            product = new Product();
+        }
+        product.setId(id);
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setSize(productDTO.getSize());
+        product.setBrand(productDTO.getBrand());
+        product.setColor(productDTO.getColor());
+        product.setQuantityInStock(productDTO.getQuantityInStock());
+        if (isNew)
+            this.sessionFactory.getCurrentSession().persist(product);
+        this.sessionFactory.getCurrentSession().flush();
+    }
+
+    @Override
+    public ProductDTO getProductDTOById(int id) {
+        Product product = this.getProductById(id);
+        if (product == null)
+            return null;
+        return new ProductDTO(product);
     }
 }

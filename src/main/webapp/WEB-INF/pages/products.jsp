@@ -76,8 +76,8 @@
                 <input type="text" name="color" id="color">
             </th>
             <th>
-                <label for="action">action</label>
-                <input type="text" name="action" id="action">
+                <label for="quantityInStock">Quantity In Stock</label>
+                <input type="text" name="quantityInStock" id="quantityInStock">
             </th>
         </tr>
     </table>
@@ -93,6 +93,7 @@
         <th>size</th>
         <th>brand</th>
         <th>color</th>
+        <th>quantity in stock</th>
         <th>action</th>
     </tr>
     <c:forEach var="product" items="${productList}">
@@ -104,9 +105,11 @@
             <td>${product.size}</td>
             <td>${product.brand}</td>
             <td>${product.color}</td>
+            <td>${product.quantityInStock}</td>
             <td>
                 <a href="/edit/${product.id}">edit</a>
                 <a href="/delete/${product.id}">delete</a>
+                <a href="${pageContext.request.contextPath}/buyProduct?id=${product.id}">buy</a>
             </td>
         </tr>
     </c:forEach>

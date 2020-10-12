@@ -5,6 +5,7 @@ import app.dao.ProductDAO;
 import app.model.Category;
 import app.model.Product;
 import app.model.ProductFilter;
+import app.model.cart.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,12 +59,24 @@ public class ProductServiceImpl implements ProductService{
     @Transactional
     @Override
     public void edit(Product product) {
+        Category category = categoryDAO.getCategoryById(product.getCategoryId());
+        product.setCategory(category);
         productDAO.edit(product);
     }
 
     @Transactional
     @Override
-    public Product getById(int id) {
-        return productDAO.getById(id);
+    public Product getProductById(int id) {
+        return productDAO.getProductById(id);
+    }
+
+    @Override
+    public void save(ProductDTO productDTO) {
+        productDAO.save(productDTO);
+    }
+
+    @Override
+    public ProductDTO getProductDTOById(int id) {
+        return productDAO.getProductDTOById(id);
     }
 }

@@ -28,7 +28,7 @@
         <div class="navbar-nav">
             <a class="nav-link active" href="${pageContext.request.contextPath}/">Home</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/products">Products</a>
-            <a class="nav-link" href="#">Cart</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/cart">Cart</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/auth/login">Login</a>
             <a class="nav-link" href="${pageContext.request.contextPath}/profile">Profile</a>
         </div>

@@ -19,6 +19,8 @@ public class Product {
     private String brand;
     @Column
     private String color;
+    @Column(name = "quantity_in_stock")
+    private Integer quantityInStock;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -29,13 +31,27 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, Integer price, Integer size, String brand, String color, Category category) {
+    public Product(String name, Integer price, Integer size,
+                   String brand, String color, Category category, Integer quantityInStock) {
         this.name = name;
         this.price = price;
         this.size = size;
         this.brand = brand;
         this.color = color;
         this.category = category;
+        this.quantityInStock = quantityInStock;
+    }
+
+    public Integer getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setQuantityInStock(Integer quantityInStock) {
+        this.quantityInStock = quantityInStock;
     }
 
     public Integer getCategoryId() {
@@ -52,14 +68,16 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product {" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", category=" + category +
-                ", weight=" + size +
+                ", size=" + size +
                 ", brand='" + brand + '\'' +
                 ", color='" + color + '\'' +
+                ", quantityInStock=" + quantityInStock +
+                ", category=" + category +
+                ", categoryId=" + categoryId +
                 '}';
     }
 
