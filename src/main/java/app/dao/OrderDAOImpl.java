@@ -16,12 +16,6 @@ import java.util.List;
 @Repository
 public class OrderDAOImpl implements OrderDAO {
     private SessionFactory sessionFactory;
-    private ProductDAO productDAO;
-
-    @Autowired
-    public void setProductDAO(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -39,27 +33,24 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void save(Cart cart) {
+    public Order save(Cart cart) {
         Session session = sessionFactory.getCurrentSession();
-        int orderNum = this.getMaxOrderNum() + 1;
         Order order = new Order();
-        order.setOrderNum(orderNum);
         order.setAmount(cart.getAmountTotal());
         UserDTO userDTO = cart.getUserDTO();
         order.setClientId(userDTO.getId());
-        session.persist(order);
         List<CartLine> cartLines = cart.getCartLines();
         for (CartLine cartLine : cartLines){
             OrderList list = new OrderList();
             list.setOrder(order);
             list.setAmount(cartLine.getAmount());
-            list.setPrice(cartLine.getProduct().getPrice());
-            int id = cartLine.getProduct().getId();
-            Product product = this.productDAO.getProductById(id);
-            list.setProduct(product);
-            session.persist(list);
+            list.setPrice(cartLine.getProductDTO().getPrice());
+            list.setProductId(cartLine.getProductDTO().getId());
+//            session.persist(list);
+            order.getOrderList().add(list);
         }
-        cart.setOrderNum(orderNum);
+        Integer orderId = (Integer) session.save(order);
+        return this.getOrderById(orderId);
     }
 
     @Override

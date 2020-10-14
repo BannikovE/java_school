@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,24 +28,26 @@
         Product List</a>
 </c:if>
 
-<c:if test="${not empty cart and not empty cart.cartLines   }">
+<c:if test="${not empty cart and not empty cart.cartLines}">
     <form:form method="POST" modelAttribute="cart"
-               action="${pageContext.request.contextPath}/cart">
+               action="${pageContext.request.contextPath}/cart/finalize">
 
         <c:forEach items="${cart.cartLines}" var="cartLine"
                    varStatus="varStatus">
             <div class="product-preview-container">
                 <ul>
-                    <li>Id: ${cartLine.product.id}
+                    <li>Id: ${cartLine.productDTO.id}
 
                     </li>
-                    <li>Name: ${cartLine.product.name}</li>
+                    <li>Name: ${cartLine.productDTO.name}</li>
                     <li>Price: <span class="price">
 
-                         <fmt:formatNumber value="${cartLine.product.price}" type="currency"/>
+                         <fmt:formatNumber value="${cartLine.productDTO.price}" type="currency"/>
 
                        </span></li>
-                    <li>Quantity: ${cartLine.quantity}
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" value="${cartLine.quantity}">
+                        <%--                    <li>Quantity: ${cartLine.quantity}--%>
                     <li>Subtotal:
                         <span class="subtotal">
 
@@ -53,22 +56,14 @@
                          </span>
                     </li>
                     <li><a
-                            href="${pageContext.request.contextPath}/cartRemoveProduct?id=${cartLine.product.id}">
+                            href="${pageContext.request.contextPath}/cartRemoveProduct?id=${cartLine.productDTO.id}">
                         Delete </a></li>
                 </ul>
             </div>
         </c:forEach>
         <div style="clear: both"></div>
-        <input class="button-update-sc" type="submit" value="Update Quantity" />
-        <a class="navi-item"
-           href="${pageContext.request.contextPath}/cartUser">Enter
-            Customer Info</a>
-        <a class="navi-item"
-           href="${pageContext.request.contextPath}/products">Continue
-            Buy</a>
+        <input type="submit" value="Create order">
     </form:form>
-
-
 </c:if>
 </body>
 </html>

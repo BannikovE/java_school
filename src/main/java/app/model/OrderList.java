@@ -15,12 +15,12 @@ public class OrderList {
     private int quantity;
     @Column
     private double amount;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "order_id")
     private Order order;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    //    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "product_id")
+    private Integer productId;
 
     public OrderList() {
     }
@@ -34,13 +34,13 @@ public class OrderList {
     }
 
     public OrderList(int id, double price, int quantity,
-                     double amount, Order order, Product product) {
+                     double amount, Order order, Integer productId) {
         this.id = id;
         this.price = price;
         this.quantity = quantity;
         this.amount = amount;
         this.order = order;
-        this.product = product;
+        this.productId = productId;
     }
 
     public int getId() {
@@ -75,11 +75,11 @@ public class OrderList {
         this.order = order;
     }
 
-    public Product getProduct() {
-        return product;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 }

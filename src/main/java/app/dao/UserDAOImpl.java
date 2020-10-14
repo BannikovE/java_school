@@ -3,6 +3,8 @@ package app.dao;
 import app.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,8 @@ import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+    private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
+
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -26,7 +30,6 @@ public class UserDAOImpl implements UserDAO {
     public int add(User user) throws ParseException {
         Session session = sessionFactory.getCurrentSession();
         String date = user.getStringDateOfBirth();
-//        String[] strings = date.split("-");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date userDate = simpleDateFormat.parse(date);
         user.setDateOfBirth(userDate);
@@ -40,6 +43,7 @@ public class UserDAOImpl implements UserDAO {
             return (User) session.createQuery("from User where email =:email")
                     .setParameter("email", email).getSingleResult();
         }catch (NoResultException exception){
+            log.error(exception.getMessage(), exception);
             return null;
         }
     }
@@ -55,5 +59,20 @@ public class UserDAOImpl implements UserDAO {
     public List<User> findAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from User").list();
+    }
+
+    @Override
+    public void edit(User user) {
+        Session session = sessionFactory.getCurrentSession();
+        String date = user.getStringDateOfBirth();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date userDate = null;
+        try {
+            userDate = simpleDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        user.setDateOfBirth(userDate);
+        session.update(user);
     }
 }

@@ -25,23 +25,21 @@
 <div class="customer-info-container">
     <h3>Customer Information:</h3>
     <ul>
-        <li>Name: ${pageContext.request.cart.customerInfo.name}</li>
-        <li>Email: ${myCart.userDTO.email}</li>
-        <li>Phone: ${myCart.customerInfo.phone}</li>
-        <li>Address: ${myCart.customerInfo.address}</li>
+        <li>Name: ${cart.userDTO.firstName}</li>
+        <li>Email: ${cart.userDTO.lastName}</li>
     </ul>
     <h3>Cart Summary:</h3>
     <ul>
-        <li>Quantity: ${myCart.quantityTotal}</li>
+        <li>Quantity: ${cart.quantityTotal}</li>
         <li>Total:
             <span class="total">
-            <fmt:formatNumber value="${myCart.amountTotal}" type="currency"/>
+            <fmt:formatNumber value="${cart.amountTotal}" type="currency"/>
           </span></li>
     </ul>
 </div>
 
 <form method="POST"
-      action="${pageContext.request.contextPath}/cartConfirmation">
+      action="${pageContext.request.contextPath}/cart/confirmation">
 
     <!-- Edit Cart -->
     <a class="navi-item"
@@ -58,15 +56,15 @@
 
 <div class="container">
 
-    <c:forEach items="${myCart.cartLines}" var="cartLine">
+    <c:forEach items="${cart.cartLines}" var="cartLine">
         <div class="product-preview-container">
             <ul>
-                <li>Code: ${cartLine.productInfo.code} <input
-                        type="hidden" name="code" value="${cartLine.productInfo.code}" />
+                <li>Code: ${cartLine.productDTO.id} <input
+                        type="hidden" name="code" value="${cartLine.productDTO.id}" />
                 </li>
-                <li>Name: ${cartLine.productInfo.name}</li>
+                <li>Name: ${cartLine.productDTO.name}</li>
                 <li>Price: <span class="price">
-                     <fmt:formatNumber value="${cartLine.productInfo.price}" type="currency"/>
+                     <fmt:formatNumber value="${cartLine.productDTO.price}" type="currency"/>
                   </span>
                 </li>
                 <li>Quantity: ${cartLine.quantity}</li>

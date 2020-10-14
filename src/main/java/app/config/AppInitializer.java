@@ -1,33 +1,34 @@
 package app.config;
 
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRegistration;
 
-public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class AppInitializer implements WebApplicationInitializer {
     @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{HibernateConfig.class};
+    public void onStartup(ServletContext container) {
+        AnnotationConfigWebApplicationContext context
+                = new AnnotationConfigWebApplicationContext();
+        context.setConfigLocation("app.config");
+
+        container.addListener(new ContextLoaderListener(context));
+
+        ServletRegistration.Dynamic dispatcher = container
+                .addServlet("dispatcher", new DispatcherServlet(context));
+
+        //Кодировка
+        FilterRegistration.Dynamic encodingFilter = container.addFilter("encoding-filter", new CharacterEncodingFilter());
+        encodingFilter.setInitParameter("encoding", "UTF-8");
+        encodingFilter.setInitParameter("forceEncoding", "true");
+        encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
     }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebConfig.class};
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
-
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-        return new Filter[]{characterEncodingFilter};
-    }
-
-
 }

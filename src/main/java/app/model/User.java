@@ -4,11 +4,12 @@ import app.model.enums.UserRole;
 import app.model.enums.UserStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -17,6 +18,7 @@ public class User {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
     @Transient

@@ -6,15 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 
 @Controller
@@ -34,6 +37,7 @@ public class AuthController {
         return "login";
     }
 
+
     @GetMapping("/signUp")
     public ModelAndView getSignUpPage(){
         ModelAndView modelAndView = new ModelAndView();
@@ -43,7 +47,8 @@ public class AuthController {
     }
 
     @PostMapping("/signUp")
-    public ModelAndView addUser(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws ParseException {
+    public ModelAndView addUser(HttpServletRequest request,
+                                @ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws ParseException {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("/signUp");
@@ -54,7 +59,7 @@ public class AuthController {
             modelAndView.addObject("passwordError", "Пароли не совпадают");
             return modelAndView;
         }
-        if (!userService.saveUser(userForm)){
+        if (!userService.saveUser(userForm, request)){
             modelAndView.setViewName("/signUp");
             modelAndView.addObject("usernameError",
                     "Пользователь с таким именем уже существует.");

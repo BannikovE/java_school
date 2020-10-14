@@ -1,21 +1,19 @@
 package app.model.cart;
 
-import app.model.Product;
-
 public class CartLine {
-    private ProductDTO product;
+    private ProductDTO productDTO;
     private int quantity;
 
     public CartLine() {
         this.quantity = 0;
     }
 
-    public ProductDTO getProduct() {
-        return product;
+    public ProductDTO getProductDTO() {
+        return productDTO;
     }
 
-    public void setProduct(ProductDTO product) {
-        this.product = product;
+    public void setProductDTO(ProductDTO productDTO) {
+        this.productDTO = productDTO;
     }
 
     public int getQuantity() {
@@ -27,6 +25,6 @@ public class CartLine {
     }
 
     public double getAmount(){
-        return this.product.getPrice() * this.quantity;
+        return this.productDTO.getPrice() * this.quantity;
     }
 }

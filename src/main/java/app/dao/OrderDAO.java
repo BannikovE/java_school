@@ -10,7 +10,7 @@ import app.model.cart.OrderListDTO;
 import java.util.List;
 
 public interface OrderDAO {
-    void save(Cart cart);
+    Order save(Cart cart);
     Order getOrderById(int id);
     OrderDTO getOrderDTOById(int id);
     List<OrderListDTO> listOrderDTO(int id);

@@ -10,4 +10,5 @@ public interface UserDAO {
     User findByEmail(String email);
     User findById(int id);
     List<User> findAll();
+    void edit(User user);
 }

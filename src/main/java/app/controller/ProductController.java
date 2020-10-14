@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class ProductController {
 
-    public static final Logger log = LoggerFactory.getLogger("ProductController");
+    public static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
     private int page;
     private ProductService productService;

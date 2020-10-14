@@ -6,10 +6,12 @@ import app.model.enums.PaymentMethod;
 import app.model.enums.PaymentState;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -34,6 +36,8 @@ public class Order {
     private double amount;
     @Column(name = "order_num")
     private Integer orderNum;
+    @OneToMany(mappedBy = "order")
+    private List<OrderList> orderList;
 
     public Order() {
     }
@@ -113,5 +117,13 @@ public class Order {
 
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
+    }
+
+    public List<OrderList> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<OrderList> orderList) {
+        this.orderList = orderList;
     }
 }

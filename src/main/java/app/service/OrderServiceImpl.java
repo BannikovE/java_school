@@ -21,23 +21,20 @@ public class OrderServiceImpl implements OrderService{
 
     @Transactional
     @Override
-    public void save(Cart cart) {
-        orderDAO.save(cart);
+    public Order save(Cart cart) {
+        return orderDAO.save(cart);
     }
 
-    @Transactional
     @Override
     public Order getOrderById(int id) {
         return orderDAO.getOrderById(id);
     }
 
-    @Transactional
     @Override
     public OrderDTO getOrderDTOById(int id) {
         return orderDAO.getOrderDTOById(id);
     }
 
-    @Transactional
     @Override
     public List<OrderListDTO> listOrderDTO(int id) {
         return orderDAO.listOrderDTO(id);

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: mi
@@ -86,7 +87,6 @@
 </form>
 <table>
     <tr>
-        <th>id</th>
         <th>name</th>
         <th>price</th>
         <th>category</th>
@@ -98,7 +98,6 @@
     </tr>
     <c:forEach var="product" items="${productList}">
         <tr>
-            <td>${product.id}</td>
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td>${product.category.name}</td>
@@ -106,9 +105,13 @@
             <td>${product.brand}</td>
             <td>${product.color}</td>
             <td>${product.quantityInStock}</td>
+            <sec:authorize access="hasAuthority('write')">
+                <td>
+                    <a href="/edit/${product.id}">edit</a>
+                    <a href="/delete/${product.id}">delete</a>
+                </td>
+            </sec:authorize>
             <td>
-                <a href="/edit/${product.id}">edit</a>
-                <a href="/delete/${product.id}">delete</a>
                 <a href="${pageContext.request.contextPath}/buyProduct?id=${product.id}">buy</a>
             </td>
         </tr>
@@ -120,9 +123,11 @@
         <a href="${url}">${i.index}</a>
     </c:forEach>
 </table>
-
+<sec:authorize access="hasAuthority('write')">
 <h2>Add</h2>
 <c:url value="/add" var="add"/>
 <a href="${add}">Add new product</a>
+</sec:authorize>
+
 </body>
 </html>

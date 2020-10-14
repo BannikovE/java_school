@@ -1,15 +1,16 @@
 package app.model.cart;
 
-import app.model.Product;
-import app.model.User;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart {
+public class Cart implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private int orderNum;
     private UserDTO userDTO;
-    private final List<CartLine> cartLines = new ArrayList<CartLine>();
+    private List<CartLine> cartLines = new ArrayList<CartLine>();
 
     public Cart() {
     }
@@ -34,9 +35,13 @@ public class Cart {
         return cartLines;
     }
 
+    public void setCartLines(List<CartLine> cartLines) {
+        this.cartLines = cartLines;
+    }
+
     private CartLine findLineById(int id){
         for (CartLine line : this.cartLines){
-            if (line.getProduct().getId().equals(id))
+            if (line.getProductDTO().getId().equals(id))
                 return line;
         }
         return null;
@@ -47,7 +52,7 @@ public class Cart {
         if (cartLine == null){
             cartLine = new CartLine();
             cartLine.setQuantity(0);
-            cartLine.setProduct(productDTO);
+            cartLine.setProductDTO(productDTO);
             this.cartLines.add(cartLine);
         }
         int newQuantity = cartLine.getQuantity() + quantity;
@@ -95,7 +100,7 @@ public class Cart {
         if (cart != null){
             List<CartLine> lines = cart.getCartLines();
             for (CartLine cartLine : lines)
-                this.updateProduct(cartLine.getProduct().getId(), cartLine.getQuantity());
+                this.updateProduct(cartLine.getProductDTO().getId(), cartLine.getQuantity());
         }
     }
 }

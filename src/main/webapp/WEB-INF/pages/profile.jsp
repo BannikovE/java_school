@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: mi
@@ -43,27 +44,19 @@
 </nav>
 <table>
     <tr>
-        <th>id</th>
         <th>first name</th>
         <th>last name</th>
         <th>date of birth</th>
         <th>email</th>
-        <th>password</th>
-        <th>role</th>
-        <th>status</th>
     </tr>
-<%--    <c:param name="user" value="&{user}">--%>
         <tr>
-            <td>${user.id}</td>
             <td>${user.firstName}</td>
             <td>${user.lastName}</td>
             <td>${user.dateOfBirth}</td>
             <td>${user.email}</td>
-            <td>${user.password}</td>
-            <td>${user.role}</td>
-            <td>${user.status}</td>
         </tr>
-<%--    </c:param>--%>
 </table>
+
+<a href="profile/editProfile/${user.id}">Edit Profile</a>
 </body>
 </html>

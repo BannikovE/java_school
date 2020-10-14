@@ -1,10 +1,15 @@
 package app.service;
 
+import app.cache.CartCache;
 import app.dao.UserDAO;
 import app.model.User;
+import app.model.cart.Cart;
 import app.model.enums.UserRole;
 import app.model.enums.UserStatus;
 import app.security.SecurityUser;
+import app.util.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,21 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
+
+    public static final Logger log = LoggerFactory.getLogger(UserService.class);
+
     @PersistenceContext
     private EntityManager entityManager;
     private final UserDAO userDAO;
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-//    @Autowired
-//    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//    }
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO) {
@@ -65,22 +70,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public boolean saveUser(User user){
-        User userFromDB = userDAO.findByEmail(user.getEmail());
-
-        if (userFromDB != null) {
+    public boolean saveUser(User user, HttpServletRequest request) throws ParseException {
+        if (userDAO.findByEmail(user.getEmail()) != null) {
+            log.info("User with login {} already exist.", user.getEmail());
             return false;
         }
-
         user.setRole(UserRole.USER);
         user.setStatus(UserStatus.ACTIVE);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        try {
-            userDAO.add(user);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Integer userId = userDAO.add(user);
+        //При успешной авторизации, если есть данные в корзине, перемещаем их в кэш, чтоб не потерять
+        if (userId != null) {
+            Cart cart = Utils.getCartFromCookie(request);
+            if (cart != null) {
+                CartCache.getInstance().put(userId, cart);
+            }
         }
-        return true;
+        return userId != null;
     }
 
     @Override
@@ -94,5 +100,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> userList(int idMin) {
         return entityManager.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
                 .setParameter("paramId", idMin).getResultList();
+    }
+
+    @Override
+    public void edit(User user) {
+        userDAO.edit(user);
     }
 }
