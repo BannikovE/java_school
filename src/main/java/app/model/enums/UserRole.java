@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public enum UserRole {
     ANONYMOUS(Collections.unmodifiableSet(EnumSet.of(Permission.READ))),
     USER(Collections.unmodifiableSet(EnumSet.of(Permission.READ))),
-    ADMIN(Collections.unmodifiableSet(EnumSet.allOf(Permission.class)));
+    ADMIN(Collections.unmodifiableSet(EnumSet.of(Permission.WRITE)));
 
     UserRole(Set<Permission> permissions) {
         this.permissions = permissions;

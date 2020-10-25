@@ -4,8 +4,11 @@ import app.model.enums.UserRole;
 import app.model.enums.UserStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -13,7 +16,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private int id;
+    private Integer id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -35,6 +38,16 @@ public class User implements Serializable {
     @Column
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+    @OneToMany (mappedBy = "user", fetch=FetchType.EAGER)
+    private List<Address> addresses;
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
 
     public UserStatus getStatus() {
         return status;
@@ -44,19 +57,10 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", status=" + status +
-                '}';
+    public void setId(Integer id) {
+        this.id = id;
     }
+
 
     public User(String firstName, String lastName, Date dateOfBirth, String email,
                 String password, UserRole role, UserStatus status) {
@@ -93,7 +97,7 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

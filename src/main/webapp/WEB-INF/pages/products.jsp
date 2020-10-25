@@ -1,48 +1,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: mi
-  Date: 26.09.2020
-  Time: 20:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <title>PRODUCTS</title>
+<title>PRODUCTS</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MyMarket</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
-            <a class="nav-link active" href="${pageContext.request.contextPath}/products">Products</a>
-            <a class="nav-link" href="#">Cart</a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/auth/login">Login</a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/profile">Profile</a>
-        </div>
-    </div>
-</nav>
+<jsp:include page="_header.jsp" />
 
+<jsp:include page="_menu.jsp" />
 <h2>Products</h2>
 <form action="<c:url value="/products/filter"/>" enctype="application/x-www-form-urlencoded" method="POST">
     <table>
@@ -94,7 +60,7 @@
         <th>brand</th>
         <th>color</th>
         <th>quantity in stock</th>
-        <th>action</th>
+<%--        <th>action</th>--%>
     </tr>
     <c:forEach var="product" items="${productList}">
         <tr>
@@ -105,15 +71,22 @@
             <td>${product.brand}</td>
             <td>${product.color}</td>
             <td>${product.quantityInStock}</td>
-            <sec:authorize access="hasAuthority('write')">
+<%--            <sec:authorize access="hasAuthority('write')">--%>
+<%--                <td>--%>
+<%--                    <a href="/products/edit/${product.id}">edit</a>--%>
+<%--                    <a href="/products/delete/${product.id}">delete</a>--%>
+<%--                </td>--%>
+<%--            </sec:authorize>--%>
+            <sec:authorize access="!isAuthenticated()">
                 <td>
-                    <a href="/edit/${product.id}">edit</a>
-                    <a href="/delete/${product.id}">delete</a>
+                    <button onclick="addProduct(${product.id})" type="button" class="button" value="Buy">Buy</button>
                 </td>
             </sec:authorize>
-            <td>
-                <a href="${pageContext.request.contextPath}/buyProduct?id=${product.id}">buy</a>
-            </td>
+            <sec:authorize access="hasAuthority('read')">
+                <td>
+                    <button onclick="addProduct(${product.id})" type="button" class="button" value="Buy">Buy</button>
+                </td>
+            </sec:authorize>
         </tr>
     </c:forEach>
     <c:forEach begin="1" end="${pagesCount}" step="1" varStatus="i">
@@ -124,10 +97,23 @@
     </c:forEach>
 </table>
 <sec:authorize access="hasAuthority('write')">
-<h2>Add</h2>
-<c:url value="/add" var="add"/>
-<a href="${add}">Add new product</a>
+    <h2>Add Product</h2>
+    <c:url value="/products/add" var="add"/>
+    <a href="${add}">Add new product</a>
+    <h2>Add Category</h2>
+    <a href="/products/addCategory">Add new category</a>
 </sec:authorize>
-
+<script>
+    function addProduct(name) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                alert("Product added to card");
+            }
+        };
+        xhttp.open("POST", "${pageContext.request.contextPath}/products/buy/" + name, true);
+        xhttp.send();
+    }
+</script>
 </body>
 </html>

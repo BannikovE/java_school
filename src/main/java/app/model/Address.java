@@ -21,18 +21,42 @@ public class Address {
     private int building;
     @Column
     private int room;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @Transient
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {
         return "Address{" +
-                "id=" + id +
-                ", country='" + country + '\'' +
+                "  country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", index=" + index +
                 ", street='" + street + '\'' +
                 ", building=" + building +
                 ", room=" + room +
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -90,12 +114,14 @@ public class Address {
     public Address() {
     }
 
-    public Address(String country, String city, int index, String street, int building, int room) {
+    public Address(String country, String city, int index,
+                   String street, int building, int room, User user) {
         this.country = country;
         this.city = city;
         this.index = index;
         this.street = street;
         this.building = building;
         this.room = room;
+        this.user = user;
     }
 }

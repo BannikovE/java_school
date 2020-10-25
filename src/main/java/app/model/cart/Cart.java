@@ -6,29 +6,9 @@ import java.util.List;
 
 public class Cart implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private int orderNum;
-    private UserDTO userDTO;
     private List<CartLine> cartLines = new ArrayList<CartLine>();
 
     public Cart() {
-    }
-
-    public int getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    public UserDTO getUserDTO() {
-        return userDTO;
-    }
-
-    public void setUserDTO(UserDTO userDTO) {
-        this.userDTO = userDTO;
     }
 
     public List<CartLine> getCartLines() {
@@ -72,8 +52,8 @@ public class Cart implements Serializable {
         }
     }
 
-    public void removeProduct(ProductDTO productDTO){
-        CartLine cartLine = this.findLineById(productDTO.getId());
+    public void removeProduct(Integer productId){
+        CartLine cartLine = this.findLineById(productId);
         if (cartLine != null)
             this.cartLines.remove(cartLine);
     }

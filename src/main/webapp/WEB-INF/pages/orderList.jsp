@@ -23,30 +23,31 @@
 
 <table border="1" style="width:100%">
     <tr>
-        <th>Order Num</th>
-        <th>Order Date</th>
-        <th>Customer Name</th>
-        <th>Customer Address</th>
-        <th>Customer Email</th>
+        <th>Delivery Method</th>
+        <th>Order Status</th>
+        <th>Payment Method</th>
+        <th>Order Payment State</th>
+        <th>Order Address</th>
         <th>Amount</th>
+        <th>Date</th>
         <th>View</th>
     </tr>
-<%--    <c:forEach items="${paginationResult.list}" var="orderInfo">--%>
-<%--        <tr>--%>
-<%--            <td>${orderInfo.orderNum}</td>--%>
-<%--            <td>--%>
-<%--                <fmt:formatDate value="${orderInfo.orderDate}" pattern="dd-MM-yyyy HH:mm"/>--%>
-<%--            </td>--%>
-<%--            <td>${orderInfo.customerName}</td>--%>
-<%--            <td>${orderInfo.customerAddress}</td>--%>
-<%--            <td>${orderInfo.customerEmail}</td>--%>
-<%--            <td style="color:red;">--%>
-<%--                <fmt:formatNumber value="${orderInfo.amount}" type="currency"/>--%>
-<%--            </td>--%>
-<%--            <td><a href="${pageContext.request.contextPath}/order?orderId=${orderInfo.id}">--%>
-<%--                View</a></td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
+    <c:forEach items="${orders}" var="order">
+        <tr>
+            <td>${order.deliveryMethod}</td>
+            <td>${order.orderStatus}</td>
+            <td>${order.paymentMethod}</td>
+            <td>${order.paymentState}</td>
+            <td hidden>${order.addressId}</td>
+            <td>${order.address.toString()}</td>
+            <td style="color:red;">
+                <fmt:formatNumber value="${order.amount}" type="number"/>
+            </td>
+            <td>${order.datetime}</td>
+            <td><a href="${pageContext.request.contextPath}/orders/${order.id}">
+                View</a></td>
+        </tr>
+    </c:forEach>
 </table>
 </body>
 </html>

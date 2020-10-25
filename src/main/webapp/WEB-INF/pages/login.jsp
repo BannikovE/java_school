@@ -1,3 +1,4 @@
+<%@ page import="app.util.AppUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 <head>
@@ -18,32 +19,41 @@
     <title>Login</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MyMarket</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/products">Products</a>
-            <a class="nav-link" href="#">Cart</a>
-            <a class="nav-link active" href="${pageContext.request.contextPath}/auth/login">Login</a>
-            <a class="nav-link" href="${pageContext.request.contextPath}/profile">Profile</a>
-        </div>
-    </div>
-</nav>
+<jsp:include page="_header.jsp" />
+
+<jsp:include page="_menu.jsp" />
 <div class="container">
     <form method="POST" action="/auth/login">
-        <h2>Sign In</h2>
-        <div>
-            <input name="username" type="text" placeholder="Username"
-                   autofocus="true"/>
-            <input name="password" type="password" placeholder="Password"/>
-            <button type="submit">Log In</button>
-            <h4><a href="/auth/signUp">Sign Up</a></h4>
+        <div id="login">
+            <h3 class="text-center text-white pt-5">Login form</h3>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" class="form" action="" method="post">
+                                <h3 class="text-center text-info">Login</h3>
+                                <div class="form-group">
+                                    <label for="username" class="text-info">Username:</label><br>
+                                    <input type="text" name="username" id="username" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="text-info">Password:</label><br>
+                                    <input type="password" name="password" id="password" class="form-control">
+                                </div>
+                                <button type="submit">Log In</button>
+                                <div id="register-link" class="text-right">
+                                    <a href="/auth/signUp" class="text-info">Sign Up</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </div>
 </body>
 </html>
+<body>
+
+</body>

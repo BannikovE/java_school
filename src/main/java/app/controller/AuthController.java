@@ -2,41 +2,48 @@ package app.controller;
 
 import app.model.User;
 import app.service.UserService;
+import app.validators.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.text.ParseException;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-    public static final Logger log = LoggerFactory.getLogger("AuthController");
-
+    public static final Logger log = LoggerFactory.getLogger(AuthController.class);
+    @Qualifier("userValidator")
+    private Validator userValidator;
     private UserService userService;
+
+    @Autowired
+    public void setUserValidator(Validator userValidator) {
+        this.userValidator = userValidator;
+    }
 
     @Autowired
     public void setUserService(@Qualifier("userService") UserService userService) {
         this.userService = userService;
     }
 
+//    @InitBinder("user")
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.setValidator(userValidator);
+//    }
+
     @GetMapping("/login")
     public String getLoginPage() {
         return "login";
     }
-
 
     @GetMapping("/signUp")
     public ModelAndView getSignUpPage(){
@@ -47,33 +54,16 @@ public class AuthController {
     }
 
     @PostMapping("/signUp")
-    public ModelAndView addUser(HttpServletRequest request,
-                                @ModelAttribute("userForm") User userForm, BindingResult bindingResult) throws ParseException {
+    public ModelAndView addUser(@Valid @ModelAttribute("userForm") User userForm, BindingResult bindingResult,
+                                HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+        userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("/signUp");
             return modelAndView;
         }
-        if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            modelAndView.setViewName("/signUp");
-            modelAndView.addObject("passwordError", "Пароли не совпадают");
-            return modelAndView;
-        }
-        if (!userService.saveUser(userForm, request)){
-            modelAndView.setViewName("/signUp");
-            modelAndView.addObject("usernameError",
-                    "Пользователь с таким именем уже существует.");
-            return modelAndView;
-        }
+        userService.saveUser(userForm, request);
         modelAndView.setViewName("redirect:/");
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("redirect:/");
-//        try {
-//            int resultId = userService.add(user);
-//            log.info("Created client with id {}", resultId);
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
         return modelAndView;
     }
 }

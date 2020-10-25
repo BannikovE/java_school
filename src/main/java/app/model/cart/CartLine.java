@@ -5,7 +5,7 @@ public class CartLine {
     private int quantity;
 
     public CartLine() {
-        this.quantity = 0;
+        this.quantity = 1;
     }
 
     public ProductDTO getProductDTO() {

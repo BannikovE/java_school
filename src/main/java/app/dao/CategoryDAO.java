@@ -8,4 +8,6 @@ import java.util.List;
 public interface CategoryDAO {
     List<Category> allCategories();
     Category getCategoryById(int id);
+    Category getCategoryByName(String name);
+    Integer add(Category category);
 }

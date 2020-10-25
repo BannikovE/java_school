@@ -5,7 +5,6 @@ import app.model.cart.CartLine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CartCache {
@@ -19,6 +18,10 @@ public class CartCache {
     private volatile ConcurrentHashMap<Key, Cart> userCartCache = new ConcurrentHashMap<>();
 
     public void put(Integer key, Cart data) {
+        userCartCache.put(new Key(key), data);
+    }
+
+    public void merge(Integer key, Cart data) {
         Cart existCart = get(key);
         if (existCart != null) {
             mergeCartLists(data, existCart);
@@ -47,25 +50,22 @@ public class CartCache {
         List<CartLine> cartLinesFromExistCart = existCart.getCartLines();
         List<CartLine> retainList = new ArrayList<>(cartLinesFromData);
         int count = 0;
-        for (CartLine cartLineFromData : cartLinesFromData){
-            for (CartLine cartLineFromExistCart : cartLinesFromExistCart){
-                if (cartLineFromData.getProductDTO().getId().equals(cartLineFromExistCart.getProductDTO().getId()))
-                    count++;
+        if (!cartLinesFromData.isEmpty()) {
+            for (CartLine cartLineFromData : cartLinesFromData) {
+                for (CartLine cartLineFromExistCart : cartLinesFromExistCart) {
+                    if (cartLineFromData.getProductDTO().getId().equals(cartLineFromExistCart.getProductDTO().getId())) {
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    retainList.add(cartLineFromData);
+                }
+                count = 0;
             }
-            if (count == 0)
-                retainList.add(cartLineFromData);
-            count = 0;
+            data.setCartLines(retainList);
+        } else {
+            data = existCart;
         }
-        data.setCartLines(retainList);
-    }
-
-    @SuppressWarnings("unchecked")
-    public void setAll(Map<Integer, Cart> map) {
-        ConcurrentHashMap temp = new ConcurrentHashMap<Key, Cart>();
-        for (Map.Entry<Integer, Cart> entry : map.entrySet()) {
-            temp.put(new Key(entry.getKey()), entry.getValue());
-        }
-        userCartCache = temp;
     }
 
     private static class Key {

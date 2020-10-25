@@ -4,9 +4,12 @@ import app.model.enums.DeliveryMethod;
 import app.model.enums.OrderStatus;
 import app.model.enums.PaymentMethod;
 import app.model.enums.PaymentState;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,27 +31,60 @@ public class Order implements Serializable {
     @Column(name = "payment_state")
     @Enumerated(EnumType.STRING)
     private PaymentState paymentState;
-    @Column(name = "address_id")
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+    @Transient
     private Integer addressId;
     @Column(name = "user_id")
-    private Integer clientId;
+    private Integer userId;
     @Column
     private double amount;
     @Column(name = "order_num")
     private Integer orderNum;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderList> orderList;
+    @Temporal(TemporalType.DATE)
+    @Column(insertable = false)
+    private Date datetime;
 
     public Order() {
     }
 
-    public Order(Integer id, Integer addressId,
-                 Integer clientId, double amount, Integer orderNum) {
+    public Order(Integer id, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, OrderStatus orderStatus,
+                 PaymentState paymentState, Integer addressId, Integer userId, double amount) {
         this.id = id;
+        this.paymentMethod = paymentMethod;
+        this.deliveryMethod = deliveryMethod;
+        this.orderStatus = orderStatus;
+        this.paymentState = paymentState;
         this.addressId = addressId;
-        this.clientId = clientId;
+        this.userId = userId;
         this.amount = amount;
-        this.orderNum = orderNum;
+    }
+
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date date) {
+        this.datetime = date;
+    }
+
+//    public void setOrderDate(Date date){
+//        this.datetime = date;
+//    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public double getAmount() {
@@ -111,15 +147,18 @@ public class Order implements Serializable {
         this.addressId = addressId;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setUserId(Integer clientId) {
+        this.userId = clientId;
     }
 
     public List<OrderList> getOrderList() {
+        if (orderList == null) {
+            orderList = new ArrayList<>();
+        }
         return orderList;
     }
 

@@ -7,11 +7,11 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface UserService {
-    boolean saveUser(User user, HttpServletRequest request) throws ParseException;
+    boolean saveUser(User user, HttpServletRequest request);
     User findById(int userId);
     User findByEmail(String email);
     List<User> allUsers();
     void deleteUser(User user);
     List<User> userList(int idMin);
-    void edit(User user);
+    User edit(User user);
 }

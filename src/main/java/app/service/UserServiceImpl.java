@@ -7,7 +7,7 @@ import app.model.cart.Cart;
 import app.model.enums.UserRole;
 import app.model.enums.UserStatus;
 import app.security.SecurityUser;
-import app.util.Utils;
+import app.util.AppUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.Cookie;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.ParseException;
-import java.util.Collections;
 import java.util.List;
 
 @Service("userService")
@@ -70,20 +68,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public boolean saveUser(User user, HttpServletRequest request) throws ParseException {
-        if (userDAO.findByEmail(user.getEmail()) != null) {
+    public boolean saveUser(User user, HttpServletRequest request){
+        User existUser = userDAO.findByEmail(user.getEmail());
+        if (existUser != null) {
+            AppUtils.setUserIdInSession(request, existUser.getId());
             log.info("User with login {} already exist.", user.getEmail());
             return false;
         }
+        String password = user.getPassword();
         user.setRole(UserRole.USER);
         user.setStatus(UserStatus.ACTIVE);
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         Integer userId = userDAO.add(user);
         //При успешной авторизации, если есть данные в корзине, перемещаем их в кэш, чтоб не потерять
         if (userId != null) {
-            Cart cart = Utils.getCartFromCookie(request);
+            Cart cart = AppUtils.getCartFromSession(request);
             if (cart != null) {
                 CartCache.getInstance().put(userId, cart);
+            }
+            AppUtils.setUserIdInSession(request, userId);
+            try {
+                request.login(user.getEmail(), password);
+            } catch (ServletException e) {
+                log.error(e.getMessage(), e);
             }
         }
         return userId != null;
@@ -102,8 +109,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .setParameter("paramId", idMin).getResultList();
     }
 
+    @Transactional
     @Override
-    public void edit(User user) {
-        userDAO.edit(user);
+    public User edit(User user) {
+        User existUser = userDAO.findByEmail(user.getEmail());
+        if (existUser != null) {
+            log.info("User with login {} already exist.", user.getEmail());
+        }
+        user.setRole(UserRole.USER);
+        user.setStatus(UserStatus.ACTIVE);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        return userDAO.edit(user);
     }
 }

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -23,11 +24,13 @@
 
 
 <div class="customer-info-container">
-    <h3>Customer Information:</h3>
-    <ul>
-        <li>Name: ${cart.userDTO.firstName}</li>
-        <li>Email: ${cart.userDTO.lastName}</li>
-    </ul>
+<%--    <h3>Customer Information:</h3>--%>
+<%--    <ul>--%>
+<%--        <li>Name: ${user.firstName}</li>--%>
+<%--        <li>Email: ${user.email}</li>--%>
+<%--        <li>Phone: ${cart.customerInfo.phone}</li>--%>
+<%--        <li>Address: ${cart.customerInfo.address}</li>--%>
+<%--    </ul>--%>
     <h3>Cart Summary:</h3>
     <ul>
         <li>Quantity: ${cart.quantityTotal}</li>
@@ -37,31 +40,75 @@
           </span></li>
     </ul>
 </div>
+<form:form method="POST" modelAttribute="order" acceptCharset="true" action="${pageContext.request.contextPath}/orders/create">
+    <div>
+        <form:select path="deliveryMethod" placeholder="DeliveryMethod"
+                     autofocus="true">
+            <form:option value="">Choose Delivery Method</form:option>
+            <c:forEach var="method" items="${deliveryMethods}">
+                <form:option value="${method}">${method}</form:option>
+            </c:forEach>
+        </form:select>
+    </div
+    <div>
+        <form:select path="paymentMethod" placeholder="PaymentMethod"
+                     autofocus="true">
+            <form:option value="">Choose Payment Method</form:option>
+            <c:forEach var="method" items="${paymentMethods}">
+                <form:option value="${method}">${method}</form:option>
+            </c:forEach>
+        </form:select>
+    </div>
+    <div>
+        <form:select path="addressId" placeholder="AddressId"
+                     autofocus="true">
+            <form:option value="">Choose Address</form:option>
+            <c:forEach var="address" items="${addresses}">
+                <form:option value="${address.id}">${address.toString()}</form:option>
+            </c:forEach>
+        </form:select>
+    </div>
+    <button type="submit">Send</button>
+</form:form>
 
-<form method="POST"
-      action="${pageContext.request.contextPath}/cart/confirmation">
+<%--<form method="POST"--%>
+<%--      action="${pageContext.request.contextPath}/orders/create">--%>
 
-    <!-- Edit Cart -->
-    <a class="navi-item"
-       href="${pageContext.request.contextPath}/cart">Edit Cart</a>
+<%--    <!-- Edit Cart -->--%>
+<%--    <a class="navi-item"--%>
+<%--       href="${pageContext.request.contextPath}/cart">Edit Cart</a>--%>
 
-    <!-- Edit Customer Info -->
-    <a class="navi-item"
-       href="${pageContext.request.contextPath}/cartUser">Edit
-        Customer Info</a>
+<%--    <!-- Edit Customer Info -->--%>
+<%--    <a class="navi-item"--%>
+<%--       href="${pageContext.request.contextPath}/profile">Edit--%>
+<%--        Customer Info</a>--%>
 
-    <!-- Send/Save -->
-    <input type="submit" value="Send" class="button-send-sc" />
-</form>
+<%--    <label for="deliveryMethod">Delivery method</label>--%>
+<%--    <select name="deliveryMethod" id="deliveryMethod">--%>
+<%--        <c:forEach items="${deliveryMethods}" var="value">--%>
+<%--            <option value="${value}">${value}</option>--%>
+<%--        </c:forEach>--%>
+<%--    </select>--%>
+<%--    <label for="paymentMethod">Payment method</label>--%>
+<%--    <select name="paymentMethod" id="paymentMethod">--%>
+<%--        <c:forEach items="${paymentMethods}" var="value">--%>
+<%--            <option value="${value}">${value}</option>--%>
+<%--        </c:forEach>--%>
+<%--    </select>--%>
+<%--    <label for="address">Address</label>--%>
+<%--    <select name="address" id="address">--%>
+<%--        <c:forEach items="${addresses}" var="value">--%>
+<%--            <option value="${value}">${value}</option>--%>
+<%--        </c:forEach>--%>
+<%--    </select>--%>
+<%--    <!-- Send/Save -->--%>
+<%--    <input type="submit" value="Send" class="button-send-sc" />--%>
+<%--</form>--%>
 
 <div class="container">
-
     <c:forEach items="${cart.cartLines}" var="cartLine">
         <div class="product-preview-container">
             <ul>
-                <li>Code: ${cartLine.productDTO.id} <input
-                        type="hidden" name="code" value="${cartLine.productDTO.id}" />
-                </li>
                 <li>Name: ${cartLine.productDTO.name}</li>
                 <li>Price: <span class="price">
                      <fmt:formatNumber value="${cartLine.productDTO.price}" type="currency"/>
@@ -76,7 +123,6 @@
             </ul>
         </div>
     </c:forEach>
-
 </div>
 </body>
 </html>

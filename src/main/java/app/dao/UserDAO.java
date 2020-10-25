@@ -2,13 +2,12 @@ package app.dao;
 
 import app.model.User;
 
-import java.text.ParseException;
 import java.util.List;
 
 public interface UserDAO {
-    int add(User user) throws ParseException;
+    Integer add(User user);
     User findByEmail(String email);
     User findById(int id);
     List<User> findAll();
-    void edit(User user);
+    User edit(User user);
 }

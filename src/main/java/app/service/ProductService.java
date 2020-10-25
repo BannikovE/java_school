@@ -7,11 +7,13 @@ import app.model.cart.ProductDTO;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> allProducts(int page, ProductFilter filter);    int productCount();
-    int add(Product product);
+    List<Product> allProducts(int page, ProductFilter filter);
+    int productCount();
+    Integer add(Product product);
     void delete(Product product);
     void edit(Product product);
     Product getProductById(int id);
+    Product getProductByName(String name);
     void save(ProductDTO productDTO);
     ProductDTO getProductDTOById(int id);
 }

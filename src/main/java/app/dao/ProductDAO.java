@@ -13,6 +13,7 @@ public interface ProductDAO {
     void delete(Product product);
     void edit(Product product);
     Product getProductById(int id);
+    Product getProductByName(String name);
     void save(ProductDTO productDTO);
     ProductDTO getProductDTOById(int id);
 }

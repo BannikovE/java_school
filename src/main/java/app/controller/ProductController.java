@@ -1,23 +1,28 @@
 package app.controller;
 
-import app.model.Category;
-import app.model.Product;
-import app.model.ProductFilter;
-import app.model.User;
+import app.model.*;
+import app.service.CartService;
 import app.service.CategoryService;
 import app.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@EnableWebMvc
+@RequestMapping("/products")
 public class ProductController {
 
     public static final Logger log = LoggerFactory.getLogger(ProductController.class);
@@ -25,6 +30,21 @@ public class ProductController {
     private int page;
     private ProductService productService;
     private CategoryService categoryService;
+    private CartService cartService;
+    @Qualifier("categoryValidator")
+    private Validator categoryValidator;
+    @Qualifier("productValidator")
+    private Validator productValidator;
+
+    @Autowired
+    public void setProductValidator(Validator productValidator) {
+        this.productValidator = productValidator;
+    }
+
+    @Autowired
+    public void setCategoryValidator(Validator categoryValidator) {
+        this.categoryValidator = categoryValidator;
+    }
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
@@ -36,22 +56,25 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
-    public ModelAndView mainPage(@ModelAttribute("user") User user){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        modelAndView.addObject("user", user);
-        return modelAndView;
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
     }
 
-    @GetMapping("/products")
+    @PostMapping("/buy/{id}")
+    public void listProductHandler(HttpServletRequest request, HttpServletResponse response,
+                                   @PathVariable(value = "id") Integer id) {
+        cartService.addProduct(request, response, id);
+    }
+
+    @GetMapping
     public ModelAndView allProducts(@RequestParam(defaultValue = "1") int page){
         this.page = page;
         List<Product> products = productService.allProducts(page, null);
         return getProducts(products);
     }
 
-    @PostMapping("/products/filter")
+    @PostMapping("/filter")
     public ModelAndView allProducts(ProductFilter filter) {
         List<Product> products = productService.allProducts(page, filter);
         return getProducts(products);
@@ -76,22 +99,56 @@ public class ProductController {
         return modelAndView;
     }
 
-     @GetMapping("/add")
+    @GetMapping("/add")
     public ModelAndView addPage(){
         List<Category> categories = categoryService.allCategories();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
         modelAndView.addObject("categoryList", categories);
+        modelAndView.addObject("product", new Product());
         return modelAndView;
     }
 
     @PostMapping("/add")
-    public ModelAndView addProduct(Product product, HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult){
+        List<Category> categories = categoryService.allCategories();
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("categoryList", categories);
+        productValidator.validate(product, bindingResult);
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("editPage");
+            return modelAndView;
+        }
         modelAndView.setViewName("redirect:/products/?page=" + this.page);
         try {
             int resultId = productService.add(product);
             log.info("Created product with id {}", resultId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("/addCategory")
+    public ModelAndView addCategoryPage(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("addCategory");
+        modelAndView.addObject("category", new Category());
+        return modelAndView;
+    }
+
+    @PostMapping("/addCategory")
+    public ModelAndView addCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult){
+        ModelAndView modelAndView = new ModelAndView();
+        categoryValidator.validate(category, bindingResult);
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("/addCategory");
+            return modelAndView;
+        }
+        modelAndView.setViewName("redirect:/products/?page=" + this.page);
+        try {
+            int resultId = categoryService.add(category);
+            log.info("Created category with id {}", resultId);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

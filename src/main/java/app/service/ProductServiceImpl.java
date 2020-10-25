@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Transactional
     @Override
-    public int add(Product product) {
+    public Integer add(Product product) {
         Category category = categoryDAO.getCategoryById(product.getCategoryId());
         product.setCategory(category);
         return productDAO.add(product);
@@ -68,6 +68,12 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product getProductById(int id) {
         return productDAO.getProductById(id);
+    }
+
+    @Transactional
+    @Override
+    public Product getProductByName(String name) {
+        return productDAO.getProductByName(name);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package app.dao;
 
+import app.model.Category;
 import app.model.Product;
 import app.model.ProductFilter;
 import app.model.cart.ProductDTO;
@@ -8,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
@@ -60,6 +60,17 @@ public class ProductDAOImpl implements ProductDAO{
     public Product getProductById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Product.class, id);
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        try {
+            return (Product)session.createQuery("from Product where name =: name")
+                    .setParameter("name", name).getSingleResult();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
