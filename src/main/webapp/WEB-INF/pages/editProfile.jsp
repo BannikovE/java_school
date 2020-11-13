@@ -9,12 +9,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
- <c:if test="${empty product.name}">
-        <title>Add</title>
-    </c:if>
-    <c:if test="${!empty product.name}">
-        <title>Edit</title>
-    </c:if>
+
+    <title>
+        Edit Profile
+    </title>
 </head>
 <body>
 <jsp:include page="_header.jsp" />
@@ -23,23 +21,16 @@
 <form action="/profile/editProfile" method="POST">
     <input type="hidden" name="id" value="${user.id}">
     <label for="firstName">First Name</label>
-    <input type="text" name="firstName" id="firstName">
+    <input type="text" name="firstName" id="firstName" value="${user.firstName}">
     <label for="lastName">Last Name</label>
-    <input type="text" name="lastName" id="lastName">
-<%--    <label for="categoryId">Category</label>--%>
-<%--    <select name="categoryId" id="categoryId">--%>
-<%--        <option value="">-----</option>--%>
-<%--        <c:forEach var="category" items="${categoryList}">--%>
-<%--            <option value="${category.id}">${category.name}</option>--%>
-<%--        </c:forEach>--%>
-<%--    </select>--%>
+    <input type="text" name="lastName" id="lastName" value="${user.lastName}">
     <label for="stringDateOfBirth">Date Of Birth</label>
     <input type="date" name="stringDateOfBirth" id="stringDateOfBirth">
     <label for="email">Email</label>
-    <input type="text" name="email" id="email">
+    <input type="text" name="email" id="email" value="${user.email}">
     <label for="password">Password</label>
-    <input type="text" name="password" id="password">
-    <input type="submit" value="Edit product">
+    <input type="password" name="password" id="password" value="${user.password}">
+    <input type="submit" value="Edit profile">
 </form>
 </body>
 </html>

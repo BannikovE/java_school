@@ -103,4 +103,11 @@ public class ProductDAOImpl implements ProductDAO{
             return null;
         return new ProductDTO(product);
     }
+
+    @Override
+    public Integer getQuantityOfProduct(ProductDTO productDTO) {
+        Session session = sessionFactory.getCurrentSession();
+        return (Integer) session.createQuery("select quantityInStock from Product where id =: productId")
+                .setParameter("productId", productDTO.getId()).getSingleResult();
+    }
 }

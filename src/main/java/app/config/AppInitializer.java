@@ -1,5 +1,7 @@
 package app.config;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -9,7 +11,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
-
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AppInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext container) {
@@ -18,6 +20,9 @@ public class AppInitializer implements WebApplicationInitializer {
         context.setConfigLocation("app.config");
 
         container.addListener(new ContextLoaderListener(context));
+
+        container.setInitParameter(
+                "contextConfigLocation", "app.config");
 
         ServletRegistration.Dynamic dispatcher = container
                 .addServlet("dispatcher", new DispatcherServlet(context));

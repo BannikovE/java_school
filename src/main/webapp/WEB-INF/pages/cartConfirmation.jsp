@@ -70,41 +70,6 @@
     </div>
     <button type="submit">Send</button>
 </form:form>
-
-<%--<form method="POST"--%>
-<%--      action="${pageContext.request.contextPath}/orders/create">--%>
-
-<%--    <!-- Edit Cart -->--%>
-<%--    <a class="navi-item"--%>
-<%--       href="${pageContext.request.contextPath}/cart">Edit Cart</a>--%>
-
-<%--    <!-- Edit Customer Info -->--%>
-<%--    <a class="navi-item"--%>
-<%--       href="${pageContext.request.contextPath}/profile">Edit--%>
-<%--        Customer Info</a>--%>
-
-<%--    <label for="deliveryMethod">Delivery method</label>--%>
-<%--    <select name="deliveryMethod" id="deliveryMethod">--%>
-<%--        <c:forEach items="${deliveryMethods}" var="value">--%>
-<%--            <option value="${value}">${value}</option>--%>
-<%--        </c:forEach>--%>
-<%--    </select>--%>
-<%--    <label for="paymentMethod">Payment method</label>--%>
-<%--    <select name="paymentMethod" id="paymentMethod">--%>
-<%--        <c:forEach items="${paymentMethods}" var="value">--%>
-<%--            <option value="${value}">${value}</option>--%>
-<%--        </c:forEach>--%>
-<%--    </select>--%>
-<%--    <label for="address">Address</label>--%>
-<%--    <select name="address" id="address">--%>
-<%--        <c:forEach items="${addresses}" var="value">--%>
-<%--            <option value="${value}">${value}</option>--%>
-<%--        </c:forEach>--%>
-<%--    </select>--%>
-<%--    <!-- Send/Save -->--%>
-<%--    <input type="submit" value="Send" class="button-send-sc" />--%>
-<%--</form>--%>
-
 <div class="container">
     <c:forEach items="${cart.cartLines}" var="cartLine">
         <div class="product-preview-container">

@@ -27,7 +27,7 @@ public class Category implements Serializable {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<Product> products;
 
     public List<Product> getProducts() {

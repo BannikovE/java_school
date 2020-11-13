@@ -35,11 +35,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-//    @InitBinder("user")
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.setValidator(userValidator);
-//    }
-
     @GetMapping("/login")
     public String getLoginPage() {
         return "login";

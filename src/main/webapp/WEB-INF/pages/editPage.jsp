@@ -21,14 +21,14 @@
 <jsp:include page="_header.jsp" />
 
 <jsp:include page="_menu.jsp" />
-<c:if test="${empty product.name}">
-    <c:url value="/products/add" var="var"/>
-</c:if>
-<c:if test="${!empty product.name}">
-    <c:url value="/products/edit" var="var"/>
-</c:if>
+<%--<c:if test="${empty product.name}">--%>
+<%--    <c:url value="/products/add" var="var"/>--%>
+<%--</c:if>--%>
+<%--<c:if test="${!empty product.name}">--%>
+<%--    <c:url value="/products/edit" var="var"/>--%>
+<%--</c:if>--%>
 <div>
-    <form:form method="POST" modelAttribute="product" acceptCharset="true" action="${var}">
+    <form:form method="POST" modelAttribute="product" acceptCharset="true" action="/products/add">
 <%--        <c:if test="${!empty product.name}">--%>
 <%--            <input type="hidden" name="id" value="${product.id}">--%>
 <%--        </c:if>--%>

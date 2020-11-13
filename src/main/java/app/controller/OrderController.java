@@ -3,10 +3,12 @@ package app.controller;
 import app.model.Order;
 import app.model.Product;
 import app.model.User;
+import app.model.cart.ProductDTO;
 import app.model.enums.DeliveryMethod;
 import app.model.enums.OrderStatus;
 import app.model.enums.PaymentMethod;
 import app.model.enums.PaymentState;
+import app.service.CartService;
 import app.service.OrderService;
 import app.service.ProductService;
 import app.util.AppUtils;
@@ -27,6 +29,12 @@ import java.util.Map;
 public class OrderController {
 
     private OrderService orderService;
+    private CartService cartService;
+
+    @Autowired
+    public void setCartService(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     @Autowired
     public void setOrderService(OrderService orderService) {
@@ -36,11 +44,17 @@ public class OrderController {
     @PostMapping("/create")
     public ModelAndView createOrder(@ModelAttribute Order orderInfo,
                                     HttpServletRequest request, HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView();
+        if (!cartService.isCartValid(request)){
+            List<ProductDTO> errorList = cartService.getErrorList(request);
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorList", errorList);
+            return modelAndView;
+        }
         DeliveryMethod deliveryMethod = orderInfo.getDeliveryMethod();
         PaymentMethod paymentMethod = orderInfo.getPaymentMethod();
         Integer addressId = orderInfo.getAddressId();
         Order order = orderService.save(deliveryMethod, paymentMethod, addressId, request, response);
-        ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("show");
         modelAndView.addObject("order", order);
         return modelAndView;

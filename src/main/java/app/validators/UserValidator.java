@@ -34,26 +34,27 @@ public class UserValidator implements Validator {
         User user = (User) o;
 
         Pattern validName = Pattern.compile("^[a-zA-Z]+$");
-        if (user.getFirstName() == null || user.getFirstName().equals("")){
+        if (user.getFirstName() == null || user.getFirstName().equals("")) {
             errors.rejectValue("firstName", "NotEmpty");
         }
-        else if(!(user.getFirstName().length() > 1 && user.getFirstName().length() < 30
-                && validName.matcher(user.getFirstName()).find())){
+        //(user.getFirstName().length() > 1 && user.getFirstName().length() < 30
+        //                && validName.matcher(user.getFirstName()).find()) в приватный метод (isFirstNameValid)
+        else if (!(user.getFirstName().length() > 1 && user.getFirstName().length() < 30
+                && validName.matcher(user.getFirstName()).find())) {
             errors.rejectValue("firstName", "firstName[invalidValue]");
         }
 
-        if (user.getLastName() == null || user.getLastName().equals("")){
+        if (user.getLastName() == null || user.getLastName().equals("")) {
             errors.rejectValue("lastName", "NotEmpty");
         }
-        else if(!(user.getFirstName().length() > 1 && user.getFirstName().length() < 30
-                && validName.matcher(user.getLastName()).find())){
+        else if (!(user.getFirstName().length() > 1 && user.getFirstName().length() < 30
+                && validName.matcher(user.getLastName()).find())) {
             errors.rejectValue("lastName", "lastName[invalidValue]");
         }
 
         if (user.getStringDateOfBirth() == null || user.getStringDateOfBirth().equals("")) {
             errors.rejectValue("dateOfBirth", "NotEmpty");
-        }
-        else{
+        } else {
             Calendar currentDate = Calendar.getInstance();
             Calendar birthday = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,7 +73,7 @@ public class UserValidator implements Validator {
             }
         }
 
-        if (user.getEmail() == null || user.getEmail().equals("")){
+        if (user.getEmail() == null || user.getEmail().equals("")) {
             errors.rejectValue("email", "NotEmpty");
         }
         if (userService.findByEmail(user.getEmail()) != null) {
@@ -80,14 +81,13 @@ public class UserValidator implements Validator {
         }
         Pattern validEmailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
                 Pattern.CASE_INSENSITIVE);
-        if (!validEmailRegex.matcher(user.getEmail()).find()){
+        if (!validEmailRegex.matcher(user.getEmail()).find()) {
             errors.rejectValue("email", "email[invalidValue]");
         }
 
-        if (user.getPassword() == null || user.getPassword().equals("")){
+        if (user.getPassword() == null || user.getPassword().equals("")) {
             errors.rejectValue("password", "NotEmpty");
-        }
-        else if (user.getPassword().length() < 8 || user.getPassword().length() > 30) {
+        } else if (user.getPassword().length() < 8 || user.getPassword().length() > 30) {
             errors.rejectValue("password", "password[invalidLength]");
         }
 

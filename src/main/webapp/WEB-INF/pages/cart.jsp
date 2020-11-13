@@ -45,9 +45,10 @@
                     <li>Id: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.id" value="${cartLine.productDTO.id}" /></li>
                     <li>Name: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.name" value="${cartLine.productDTO.name}" /></li>
                     <li>Price: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.price" value="${cartLine.productDTO.price}" type="currency"/></li>
+                    <li>QuantityInStock: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.quantityInStock" value="${cartLine.productDTO.quantityInStock}"/></li>
                     <li>Quantity: <form:input path = "cartLines[${varStatus.index}].quantity" value="${cartLine.quantity}" /></li>
                     <li>Subtotal: <form:input readonly="true" path = "cartLines[${varStatus.index}].amount" value="${cartLine.amount}" type="currency" /></li>
-                    <li><a href="${pageContext.request.contextPath}/cart/delete/${cartLine.productDTO.id}">Delete </a></li>
+                    <li><a href="${pageContext.request.contextPath}/cart/delete/${cartLine.productDTO.id}">Delete</a></li>
                 </ul>
             </div>
         </c:forEach>

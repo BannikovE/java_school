@@ -13,6 +13,9 @@
     <title>Title</title>
 </head>
 <body>
+<jsp:include page="_header.jsp" />
+
+<jsp:include page="_menu.jsp" />
 <table>
     <tr>
         <th>product</th>

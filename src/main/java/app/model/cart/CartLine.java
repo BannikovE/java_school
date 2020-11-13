@@ -1,6 +1,8 @@
 package app.model.cart;
 
-public class CartLine {
+import java.io.Serializable;
+
+public class CartLine implements Serializable {
     private ProductDTO productDTO;
     private int quantity;
 

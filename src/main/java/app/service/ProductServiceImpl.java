@@ -2,6 +2,7 @@ package app.service;
 
 import app.dao.CategoryDAO;
 import app.dao.ProductDAO;
+import app.jms.Producer;
 import app.model.Category;
 import app.model.Product;
 import app.model.ProductFilter;
@@ -62,6 +63,7 @@ public class ProductServiceImpl implements ProductService{
         Category category = categoryDAO.getCategoryById(product.getCategoryId());
         product.setCategory(category);
         productDAO.edit(product);
+        Producer.produceMessage();
     }
 
     @Transactional
@@ -84,5 +86,11 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductDTO getProductDTOById(int id) {
         return productDAO.getProductDTOById(id);
+    }
+
+    @Transactional
+    @Override
+    public Integer getQuantityOfProduct(ProductDTO productDTO) {
+        return productDAO.getQuantityOfProduct(productDTO);
     }
 }

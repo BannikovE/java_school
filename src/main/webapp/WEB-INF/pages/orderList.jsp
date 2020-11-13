@@ -23,6 +23,7 @@
 
 <table border="1" style="width:100%">
     <tr>
+        <th>Order number</th>
         <th>Delivery Method</th>
         <th>Order Status</th>
         <th>Payment Method</th>
@@ -34,6 +35,7 @@
     </tr>
     <c:forEach items="${orders}" var="order">
         <tr>
+            <td>${order.id}</td>
             <td>${order.deliveryMethod}</td>
             <td>${order.orderStatus}</td>
             <td>${order.paymentMethod}</td>

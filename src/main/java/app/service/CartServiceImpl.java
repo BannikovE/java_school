@@ -2,6 +2,7 @@ package app.service;
 
 import app.model.Product;
 import app.model.cart.Cart;
+import app.model.cart.CartLine;
 import app.model.cart.ProductDTO;
 import app.util.CartCacheUtils;
 import app.util.AppUtils;
@@ -9,9 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -61,5 +65,28 @@ public class CartServiceImpl implements CartService {
             }
         }
         return null;
+    }
+
+    @Transactional
+    @Override
+    public List<ProductDTO> getErrorList(HttpServletRequest request) {
+        Cart cart = CartCacheUtils.getCart(request);
+        List<CartLine> cartLines = cart.getCartLines();
+        List<ProductDTO> products = new ArrayList<>();
+        for (CartLine cartLine : cartLines){
+            if (cartLine.getQuantity() > productService.getQuantityOfProduct(cartLine.getProductDTO())){
+                products.add(cartLine.getProductDTO());
+            }
+        }
+        return products;
+    }
+
+    @Override
+    public boolean isCartValid(HttpServletRequest request) {
+        List<ProductDTO> errorList = getErrorList(request);
+        if (errorList.isEmpty()){
+            return true;
+        }
+        return false;
     }
 }

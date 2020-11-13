@@ -23,6 +23,18 @@ import java.util.*;
 @Repository
 public class OrderDAOImpl implements OrderDAO {
     private SessionFactory sessionFactory;
+    private ProductDAO productDAO;
+    private ScoreboardDAO scoreboardDAO;
+
+    @Autowired
+    public void setScoreboardDAO(ScoreboardDAO scoreboardDAO) {
+        this.scoreboardDAO = scoreboardDAO;
+    }
+
+    @Autowired
+    public void setProductDAO(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -34,6 +46,7 @@ public class OrderDAOImpl implements OrderDAO {
                       Cart cart, HttpServletRequest request) {
         Session session = sessionFactory.getCurrentSession();
         Integer userId = AppUtils.getUserIdFromSession(request);
+        Map<Product, Integer> mapToScoreboard = new HashMap<>();
         Order order = new Order();
         order.setAmount(cart.getAmountTotal());
         order.setUserId(userId);
@@ -50,6 +63,9 @@ public class OrderDAOImpl implements OrderDAO {
             list.setProductId(cartLine.getProductDTO().getId());
             list.setQuantity(cartLine.getQuantity());
             order.getOrderList().add(list);
+            Product product = productDAO.getProductById(cartLine.getProductDTO().getId());
+            product.setQuantityInStock(product.getQuantityInStock() - cartLine.getQuantity());
+            mapToScoreboard.put(productDAO.getProductById(list.getProductId()), list.getQuantity());
         }
         Integer orderId = (Integer) session.save(order);
         if (orderId != null) {

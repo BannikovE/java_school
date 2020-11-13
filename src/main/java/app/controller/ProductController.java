@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.jms.Producer;
 import app.model.*;
 import app.service.CartService;
 import app.service.CategoryService;
@@ -123,6 +124,7 @@ public class ProductController {
         try {
             int resultId = productService.add(product);
             log.info("Created product with id {}", resultId);
+            Producer.produceMessage();
         } catch (Exception e) {
             log.error(e.getMessage());
         }

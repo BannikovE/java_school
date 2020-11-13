@@ -75,13 +75,5 @@ public class Cart implements Serializable {
             total += cartLine.getAmount();
         return total;
     }
-
-    public void updateQuantity(Cart cart){
-        if (cart != null){
-            List<CartLine> lines = cart.getCartLines();
-            for (CartLine cartLine : lines)
-                this.updateProduct(cartLine.getProductDTO().getId(), cartLine.getQuantity());
-        }
-    }
 }
 

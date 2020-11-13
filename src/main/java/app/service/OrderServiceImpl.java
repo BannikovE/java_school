@@ -4,6 +4,7 @@ import app.dao.AddressDAO;
 import app.dao.OrderDAO;
 import app.dao.ProductDAO;
 import app.dao.UserDAO;
+import app.jms.Producer;
 import app.model.*;
 import app.model.cart.Cart;
 import app.model.cart.OrderDTO;
@@ -20,13 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
     private OrderDAO orderDAO;
     private ProductDAO productDAO;
     private AddressDAO addressDAO;
@@ -114,7 +112,7 @@ public class OrderServiceImpl implements OrderService{
         Map<Integer, Integer> idsAndCount = orderDAO.getTenProducts();
         ProductComparator productComparator = new ProductComparator();
         Map<Product, Integer> productAndCount = new TreeMap<>(productComparator);
-        for (Map.Entry<Integer, Integer> pair : idsAndCount.entrySet()){
+        for (Map.Entry<Integer, Integer> pair : idsAndCount.entrySet()) {
             productAndCount.put(productDAO.getProductById(pair.getKey()), pair.getValue());
         }
         return AppUtils.sortByValue(productAndCount);
@@ -126,7 +124,7 @@ public class OrderServiceImpl implements OrderService{
         Map<Integer, Integer> idsAndCount = orderDAO.getTenUsers();
         UserComparator userComparator = new UserComparator();
         Map<User, Integer> userAndCount = new TreeMap<>(userComparator);
-        for (Map.Entry<Integer, Integer> pair : idsAndCount.entrySet()){
+        for (Map.Entry<Integer, Integer> pair : idsAndCount.entrySet()) {
             userAndCount.put(userDAO.findById(pair.getKey()), pair.getValue());
         }
         return AppUtils.sortByValue(userAndCount);

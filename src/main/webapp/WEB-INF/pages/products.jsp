@@ -49,9 +49,8 @@
         </tr>
     </table>
     <button type="submit" value="Filter">Filter</button>
-    <input type="reset" value="Reset">
 </form>
-<table>
+<table border="1" style="width:100%">
     <tr>
         <th>name</th>
         <th>price</th>
@@ -71,16 +70,12 @@
             <td>${product.brand}</td>
             <td>${product.color}</td>
             <td>${product.quantityInStock}</td>
-<%--            <sec:authorize access="hasAuthority('write')">--%>
-<%--                <td>--%>
-<%--                    <a href="/products/edit/${product.id}">edit</a>--%>
-<%--                    <a href="/products/delete/${product.id}">delete</a>--%>
-<%--                </td>--%>
-<%--            </sec:authorize>--%>
             <sec:authorize access="!isAuthenticated()">
-                <td>
-                    <button onclick="addProduct(${product.id})" type="button" class="button" value="Buy">Buy</button>
-                </td>
+                <c:if test="${product.price != 0}">
+                    <td>
+                        <button onclick="addProduct(${product.id})" type="button" class="button" value="Buy">Buy</button>
+                    </td>
+                </c:if>
             </sec:authorize>
             <sec:authorize access="hasAuthority('read')">
                 <td>

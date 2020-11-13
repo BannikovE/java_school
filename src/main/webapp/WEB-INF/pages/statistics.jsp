@@ -17,7 +17,7 @@
 <jsp:include page="_menu.jsp" />
 <div>
     <h4>Top products</h4>
-    <table>
+    <table border="1" style="width:50%">
         <tr>
             <th>name</th>
             <th>price</th>
@@ -36,7 +36,7 @@
 </div>
 <div>
     <h4>Top clients</h4>
-    <table>
+    <table border="1" style="width:30%">
         <tr>
             <th>email</th>
             <th>total amount</th>
@@ -51,7 +51,7 @@
 </div>
 <div>
     <h4>Monthly income</h4>
-    <table>
+    <table border="1" style="width:20%">
         <tr>
             <th>total amount</th>
         </tr>
@@ -62,7 +62,7 @@
 </div>
 <div>
     <h4>Daily income</h4>
-    <table>
+    <table border="1" style="width:20%">
         <tr>
             <th>total amount</th>
         </tr>
