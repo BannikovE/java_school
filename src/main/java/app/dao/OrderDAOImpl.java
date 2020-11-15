@@ -129,10 +129,10 @@ public class OrderDAOImpl implements OrderDAO {
         Map<Integer, Integer> tenProducts = new TreeMap<>();
         List<Integer> productIds;
         List<Integer> counts;
-        Query queryToFindProductIds = session.createQuery("select productId from OrderList group by productId " +
-                "order by count (productId) desc");
-        Query queryToFindCounts = session.createQuery("select sum(quantity) from OrderList group by productId" +
-                " order by count (productId) desc");
+        Query queryToFindProductIds = session.createNativeQuery("select product_id from order_list group by product_id " +
+                "order by count (product_id) desc limit 10");
+        Query queryToFindCounts = session.createNativeQuery("select sum(quantity) from order_list group by product_id" +
+                " order by count (product_id) desc limit 10");
         productIds = queryToFindProductIds.getResultList();
         counts = queryToFindCounts.getResultList();
         for (int i = 0; i < productIds.size(); i++){

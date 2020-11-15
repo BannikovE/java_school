@@ -15,7 +15,6 @@ public interface ProductService {
     Product getProductById(int id);
     Product getProductByName(String name);
     void save(ProductDTO productDTO);
-    ProductDTO getProductDTOById(int id);
     Integer getQuantityOfProduct(ProductDTO productDTO);
 }
 

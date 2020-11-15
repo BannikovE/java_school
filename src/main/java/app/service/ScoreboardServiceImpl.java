@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ScoreboardServiceImpl implements ScoreboardService{
@@ -29,10 +27,6 @@ public class ScoreboardServiceImpl implements ScoreboardService{
     @Override
     public List<String> getListToScoreboard() {
         List<Product> products = scoreboardDAO.getMapToScoreboard();
-        return getJsonList(products);
-    }
-
-    public List<String> getJsonList(List<Product> products) {
         List<String> result = new ArrayList<>();
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(Product.class, new ProductSerializer())

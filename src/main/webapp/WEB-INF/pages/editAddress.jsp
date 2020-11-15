@@ -19,15 +19,15 @@
     <label for="country">Country</label>
     <input type="text" name="country" id="country" value="${address.country}">
     <label for="city">City</label>
-    <input type="text" name="city" id="city">
+    <input type="text" name="city" id="city" value="${address.city}">
     <label for="index">Index</label>
-    <input type="number" name="index" id="index">
+    <input type="number" name="index" id="index" value="${address.index}">
     <label for="street">Street</label>
-    <input type="text" name="street" id="street">
+    <input type="text" name="street" id="street" value="${address.street}">
     <label for="building">Building</label>
-    <input type="number" name="building" id="building">
+    <input type="number" name="building" id="building" value="${address.building}">
     <label for="room">Room</label>
-    <input type="number" name="room" id="room">
+    <input type="number" name="room" id="room" value="${address.room}">
     <input type="hidden" name="userId" value="${address.user.id}">
     <input type="submit" value="Edit address">
 </form>

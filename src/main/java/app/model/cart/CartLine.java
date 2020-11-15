@@ -6,6 +6,11 @@ public class CartLine implements Serializable {
     private ProductDTO productDTO;
     private int quantity;
 
+    public CartLine(ProductDTO productDTO, int quantity) {
+        this.productDTO = productDTO;
+        this.quantity = quantity;
+    }
+
     public CartLine() {
         this.quantity = 1;
     }

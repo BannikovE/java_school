@@ -7,6 +7,4 @@ import java.util.Map;
 
 public interface ScoreboardService {
     List<String> getListToScoreboard();
-//    void setMapToScoreboard(Map<Product, Integer> map);
-//    Map<String, Integer> getTopToScoreboard();
 }

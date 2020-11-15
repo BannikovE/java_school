@@ -96,18 +96,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userId != null;
     }
 
-    @Override
-    @Transactional
-    public void deleteUser(User user) {
-        entityManager.remove(user);
-    }
-
-    @Override
-    @Transactional
-    public List<User> userList(int idMin) {
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
-    }
 
     @Transactional
     @Override

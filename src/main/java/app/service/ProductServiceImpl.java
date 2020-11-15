@@ -83,10 +83,6 @@ public class ProductServiceImpl implements ProductService{
         productDAO.save(productDTO);
     }
 
-    @Override
-    public ProductDTO getProductDTOById(int id) {
-        return productDAO.getProductDTOById(id);
-    }
 
     @Transactional
     @Override

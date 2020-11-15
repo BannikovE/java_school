@@ -19,8 +19,6 @@ public interface OrderService {
     Order save(DeliveryMethod deliveryMethod, PaymentMethod paymentMethod, Integer addressId,
                HttpServletRequest request, HttpServletResponse response);
     Order getOrderById(Integer id);
-    OrderDTO getOrderDTOById(Integer id);
-    List<OrderListDTO> listOrderDTO(Integer id);
     List<Order> getOrdersByUserId(Integer userId);
     List<Order> getAllOrders();
     Order edit(Order order);
@@ -28,5 +26,4 @@ public interface OrderService {
     Map<User, Integer> getTenUsers();
     Double getMonthlyIncome();
     Double getDailyIncome();
-    Date getOrderDateById(Integer id);
 }

@@ -4,11 +4,8 @@ import app.dao.AddressDAO;
 import app.dao.OrderDAO;
 import app.dao.ProductDAO;
 import app.dao.UserDAO;
-import app.jms.Producer;
 import app.model.*;
 import app.model.cart.Cart;
-import app.model.cart.OrderDTO;
-import app.model.cart.OrderListDTO;
 import app.model.enums.DeliveryMethod;
 import app.model.enums.PaymentMethod;
 import app.util.AppUtils;
@@ -68,17 +65,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderById(Integer id) {
         return orderDAO.getOrderById(id);
-    }
-
-    @Override
-    public OrderDTO getOrderDTOById(Integer id) {
-        return orderDAO.getOrderDTOById(id);
-    }
-
-    @Transactional
-    @Override
-    public List<OrderListDTO> listOrderDTO(Integer id) {
-        return orderDAO.listOrderDTO(id);
     }
 
     @Transactional
@@ -142,9 +128,4 @@ public class OrderServiceImpl implements OrderService {
         return orderDAO.getDailyIncome();
     }
 
-    @Transactional
-    @Override
-    public Date getOrderDateById(Integer id) {
-        return orderDAO.getOrderDateById(id);
-    }
 }
