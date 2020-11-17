@@ -47,15 +47,15 @@ public class ProductValidatorTest {
     @BeforeEach
     public void setUp() {
         product = Product.newBuilder()
-                .setId(2)
-                .setName("nam")
-                .setPrice(1020)
-                .setBrand("GJ")
-                .setSize(32)
-                .setCategory(new Category(2, "jee"))
-                .setCategoryId(2)
-                .setColor("blue")
-                .setQuantityInStock(10)
+                .id(2)
+                .name("nam")
+                .price(1020)
+                .brand("GJ")
+                .size(32)
+                .category(new Category(2, "jee"))
+                .categoryId(2)
+                .color("blue")
+                .quantityInStock(10)
                 .build();
 
         errors = new BeanPropertyBindingResult(product, "product");

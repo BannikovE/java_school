@@ -38,15 +38,15 @@ public class ProductServiceTest {
     public void setUp() {
         Category category = new Category(1, "new");
         product = Product.newBuilder()
-                .setId(1)
-                .setName("name")
-                .setPrice(1000)
-                .setBrand("GJ")
-                .setCategory(category)
-                .setCategoryId(category.getId())
-                .setColor("blue")
-                .setQuantityInStock(10)
-                .setSize(32)
+                .id(1)
+                .name("name")
+                .price(1000)
+                .brand("GJ")
+                .category(category)
+                .categoryId(category.getId())
+                .color("blue")
+                .quantityInStock(10)
+                .size(32)
                 .build();
     }
 
@@ -67,14 +67,14 @@ public class ProductServiceTest {
     @Test
     public void testGetAllProducts() {
         Product newProduct = Product.newBuilder()
-                .setId(2)
-                .setName("nam")
-                .setPrice(1020)
-                .setBrand("G")
-                .setSize(32)
-                .setCategory(new Category(2, "jee"))
-                .setCategoryId(2)
-                .setColor("blue")
+                .id(2)
+                .name("nam")
+                .price(1020)
+                .brand("G")
+                .size(32)
+                .category(new Category(2, "jee"))
+                .categoryId(2)
+                .color("blue")
                 .build();
 
         List<Product> list = new ArrayList<>();

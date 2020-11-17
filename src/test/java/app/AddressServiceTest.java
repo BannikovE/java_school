@@ -32,14 +32,14 @@ public class AddressServiceTest {
     @BeforeEach
     public void setUp() {
         address = Address.newBuilder()
-                .setId(1)
-                .setCountry("Russia")
-                .setCity("Moscow")
-                .setIndex(456345)
-                .setStreet("Street")
-                .setBuilding(100)
-                .setRoom(10)
-                .setUserId(1)
+                .id(1)
+                .country("Russia")
+                .city("Moscow")
+                .index(456345)
+                .street("Street")
+                .building(100)
+                .room(10)
+                .userId(1)
                 .build();
     }
 

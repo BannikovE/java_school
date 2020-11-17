@@ -125,40 +125,40 @@ public class Address implements Serializable {
 
         }
 
-        public Builder setId(Integer id) {
+        public Builder id(Integer id) {
             Address.this.id = id;
             return this;
         }
 
-        public Builder setCountry(String country) {
+        public Builder country(String country) {
             Address.this.country = country;
             return this;
         }
-        public Builder setCity(String city) {
+        public Builder city(String city) {
             Address.this.city = city;
             return this;
         }
-        public Builder setIndex(Integer index) {
+        public Builder index(Integer index) {
             Address.this.index = index;
             return this;
         }
-        public Builder setStreet(String street) {
+        public Builder street(String street) {
             Address.this.street = street;
             return this;
         }
-        public Builder setBuilding(Integer building) {
+        public Builder building(Integer building) {
             Address.this.building = building;
             return this;
         }
-        public Builder setRoom(Integer room) {
+        public Builder room(Integer room) {
             Address.this.room = room;
             return this;
         }
-        public Builder setUser(User user) {
+        public Builder user(User user) {
             Address.this.user = user;
             return this;
         }
-        public Builder setUserId(Integer user) {
+        public Builder userId(Integer user) {
             Address.this.userId = user;
             return this;
         }

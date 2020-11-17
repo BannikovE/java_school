@@ -157,62 +157,62 @@ public class Order implements Serializable {
         private Builder() {
         }
 
-        public Builder setId(Integer id) {
+        public Builder id(Integer id) {
             Order.this.id = id;
             return this;
         }
 
-        public Builder setPaymentMethod(PaymentMethod paymentMethod) {
+        public Builder paymentMethod(PaymentMethod paymentMethod) {
             Order.this.paymentMethod = paymentMethod;
             return this;
         }
 
-        public Builder setDeliveryMethod(DeliveryMethod deliveryMethod) {
+        public Builder deliveryMethod(DeliveryMethod deliveryMethod) {
             Order.this.deliveryMethod = deliveryMethod;
             return this;
         }
 
-        public Builder setOrderStatus(OrderStatus orderStatus) {
+        public Builder orderStatus(OrderStatus orderStatus) {
             Order.this.orderStatus = orderStatus;
             return this;
         }
 
-        public Builder setPaymentState(PaymentState paymentState) {
+        public Builder paymentState(PaymentState paymentState) {
             Order.this.paymentState = paymentState;
             return this;
         }
 
-        public Builder setAddress(Address address) {
+        public Builder address(Address address) {
             Order.this.address = address;
             return this;
         }
 
-        public Builder setAddressId(Integer id) {
+        public Builder addressId(Integer id) {
             Order.this.addressId = id;
             return this;
         }
 
-        public Builder setUserId(Integer id) {
+        public Builder userId(Integer id) {
             Order.this.userId = id;
             return this;
         }
 
-        public Builder setAmount(Double amount) {
+        public Builder amount(Double amount) {
             Order.this.amount = amount;
             return this;
         }
 
-        public Builder setOrderNum(Integer orderNum) {
+        public Builder orderNum(Integer orderNum) {
             Order.this.orderNum = orderNum;
             return this;
         }
 
-        public Builder setOrderList(List<OrderList> list) {
+        public Builder orderList(List<OrderList> list) {
             Order.this.orderList = list;
             return this;
         }
 
-        public Builder setDatetime(Date datetime) {
+        public Builder datetime(Date datetime) {
             Order.this.datetime = datetime;
             return this;
         }

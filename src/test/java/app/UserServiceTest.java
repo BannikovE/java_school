@@ -35,15 +35,15 @@ public class UserServiceTest {
     @BeforeEach
     public void setUp() {
         user = User.newBuilder()
-                .setId(1)
-                .setDateOfBirth(new Date())
-                .setEmail("mail@mail.com")
-                .setFirstName("Egor")
-                .setLastName("Bannikov")
-                .setPassword("11111111")
-                .setPasswordConfirm("11111111")
-                .setRole(UserRole.USER)
-                .setStatus(UserStatus.ACTIVE)
+                .id(1)
+                .dateOfBirth(new Date())
+                .email("mail@mail.com")
+                .firstName("Egor")
+                .lastName("Bannikov")
+                .password("11111111")
+                .passwordConfirm("11111111")
+                .role(UserRole.USER)
+                .status(UserStatus.ACTIVE)
                 .build();
     }
 
@@ -64,15 +64,15 @@ public class UserServiceTest {
     @Test
     public void testGetAllUsers() throws ParseException {
         User newUser = User.newBuilder()
-                .setId(2)
-                .setDateOfBirth(new Date())
-                .setEmail("maill@mail.com")
-                .setFirstName("Egorr")
-                .setLastName("Bafnnikov")
-                .setPassword("11111111")
-                .setPasswordConfirm("11111111")
-                .setRole(UserRole.USER)
-                .setStatus(UserStatus.ACTIVE)
+                .id(2)
+                .dateOfBirth(new Date())
+                .email("maill@mail.com")
+                .firstName("Egorr")
+                .lastName("Bafnnikov")
+                .password("11111111")
+                .passwordConfirm("11111111")
+                .role(UserRole.USER)
+                .status(UserStatus.ACTIVE)
                 .build();
 
         List<User> list = new ArrayList<>();

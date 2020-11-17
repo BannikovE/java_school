@@ -51,16 +51,16 @@ public class UserValidatorTest {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         user = User.newBuilder()
-                .setId(1)
-                .setDateOfBirth(sdf.parse(DATE_VALID))
-                .setEmail(EMAIL_VALID)
-                .setFirstName(FIRST_NAME_VALID)
-                .setLastName(LAST_NAME_VALID)
-                .setPassword(PASSWORD_VALID)
-                .setPasswordConfirm(PASSWORD_CONFIRM_VALID)
-                .setRole(UserRole.USER)
-                .setStatus(UserStatus.ACTIVE)
-                .setStringDateOfBirth(DATE_VALID)
+                .id(1)
+                .dateOfBirth(sdf.parse(DATE_VALID))
+                .email(EMAIL_VALID)
+                .firstName(FIRST_NAME_VALID)
+                .lastName(LAST_NAME_VALID)
+                .password(PASSWORD_VALID)
+                .passwordConfirm(PASSWORD_CONFIRM_VALID)
+                .role(UserRole.USER)
+                .status(UserStatus.ACTIVE)
+                .stringDateOfBirth(DATE_VALID)
                 .build();
 
         errors = new BeanPropertyBindingResult(user, "user");

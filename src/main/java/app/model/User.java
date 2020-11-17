@@ -140,52 +140,52 @@ public class User implements Serializable {
 
         }
 
-        public Builder setId(Integer id) {
+        public Builder id(Integer id) {
             User.this.id = id;
             return this;
         }
 
-        public Builder setFirstName(String firstName) {
+        public Builder firstName(String firstName) {
             User.this.firstName = firstName;
             return this;
         }
 
-        public Builder setLastName(String lastName) {
+        public Builder lastName(String lastName) {
             User.this.lastName = lastName;
             return this;
         }
 
-        public Builder setDateOfBirth(Date dateOfBirth) {
+        public Builder dateOfBirth(Date dateOfBirth) {
             User.this.dateOfBirth = dateOfBirth;
             return this;
         }
 
-        public Builder setStringDateOfBirth(String dateOfBirth) {
+        public Builder stringDateOfBirth(String dateOfBirth) {
             User.this.stringDateOfBirth = dateOfBirth;
             return this;
         }
 
-        public Builder setEmail(String email) {
+        public Builder email(String email) {
             User.this.email = email;
             return this;
         }
 
-        public Builder setPassword(String password) {
+        public Builder password(String password) {
             User.this.password = password;
             return this;
         }
 
-        public Builder setPasswordConfirm(String password) {
+        public Builder passwordConfirm(String password) {
             User.this.passwordConfirm = password;
             return this;
         }
 
-        public Builder setRole(UserRole userRole) {
+        public Builder role(UserRole userRole) {
             User.this.role = userRole;
             return this;
         }
 
-        public Builder setStatus(UserStatus userStatus) {
+        public Builder status(UserStatus userStatus) {
             User.this.status = userStatus;
             return this;
         }
