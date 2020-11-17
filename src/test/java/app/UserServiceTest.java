@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,21 +31,20 @@ public class UserServiceTest {
     private UserDAOImpl userDAO;
 
     private static User user;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @BeforeEach
-    public void setUp() throws ParseException {
-        user = new User();
-        user.setId(1);
-        user.setPassword("11111111");
-        user.setEmail("mail@mail.com");
-        user.setLastName("Bannikov");
-        user.setFirstName("Egor");
-        user.setPasswordConfirm("111111111");
-        user.setStringDateOfBirth("1997-01-21");
-        user.setDateOfBirth(sdf.parse(user.getStringDateOfBirth()));
-        user.setRole(UserRole.USER);
-        user.setStatus(UserStatus.ACTIVE);
+    public void setUp() {
+        user = User.newBuilder()
+                .setId(1)
+                .setDateOfBirth(new Date())
+                .setEmail("mail@mail.com")
+                .setFirstName("Egor")
+                .setLastName("Bannikov")
+                .setPassword("11111111")
+                .setPasswordConfirm("11111111")
+                .setRole(UserRole.USER)
+                .setStatus(UserStatus.ACTIVE)
+                .build();
     }
 
     @Test
@@ -64,20 +63,22 @@ public class UserServiceTest {
 
     @Test
     public void testGetAllUsers() throws ParseException {
+        User newUser = User.newBuilder()
+                .setId(2)
+                .setDateOfBirth(new Date())
+                .setEmail("maill@mail.com")
+                .setFirstName("Egorr")
+                .setLastName("Bafnnikov")
+                .setPassword("11111111")
+                .setPasswordConfirm("11111111")
+                .setRole(UserRole.USER)
+                .setStatus(UserStatus.ACTIVE)
+                .build();
+
         List<User> list = new ArrayList<>();
-        User newUser = new User();
-        newUser.setId(2);
-        newUser.setPassword("11111111");
-        newUser.setEmail("viktor@mail.com");
-        newUser.setLastName("Ivanov");
-        newUser.setFirstName("Viktor");
-        newUser.setPasswordConfirm("111111111");
-        newUser.setStringDateOfBirth("1995-01-21");
-        newUser.setDateOfBirth(sdf.parse(user.getStringDateOfBirth()));
-        newUser.setRole(UserRole.USER);
-        newUser.setStatus(UserStatus.ACTIVE);
         list.add(user);
         list.add(newUser);
+
         given(userDAO.findAll()).willReturn(list);
         List<User> expected = userService.allUsers();
         assertEquals(expected, list);

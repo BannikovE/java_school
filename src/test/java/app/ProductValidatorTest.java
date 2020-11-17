@@ -1,5 +1,6 @@
 package app;
 
+import app.model.Category;
 import app.model.Product;
 import app.service.ProductService;
 import app.validators.ProductValidator;
@@ -12,8 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductValidatorTest {
@@ -42,14 +46,18 @@ public class ProductValidatorTest {
 
     @BeforeEach
     public void setUp() {
-        product = new Product();
-        product.setQuantityInStock(QUANTITY_VALID);
-        product.setColor(COLOR_VALID);
-        product.setBrand(BRAND_VALID);
-        product.setSize(SIZE_VALID);
-        product.setPrice(PRICE_VALID);
-        product.setName(NAME_VALID);
-        product.setCategoryId(1);
+        product = Product.newBuilder()
+                .setId(2)
+                .setName("nam")
+                .setPrice(1020)
+                .setBrand("GJ")
+                .setSize(32)
+                .setCategory(new Category(2, "jee"))
+                .setCategoryId(2)
+                .setColor("blue")
+                .setQuantityInStock(10)
+                .build();
+
         errors = new BeanPropertyBindingResult(product, "product");
         lenient().when(productService.getProductById(anyInt())).thenReturn(null);
     }

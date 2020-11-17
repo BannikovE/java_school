@@ -1,7 +1,6 @@
 package app.dao;
 
 import app.model.Address;
-import app.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

@@ -1,7 +1,6 @@
 package app;
 
 import app.dao.ScoreboardDAOImpl;
-import app.service.ScoreboardService;
 import app.service.ScoreboardServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

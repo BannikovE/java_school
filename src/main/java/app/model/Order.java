@@ -4,7 +4,6 @@ import app.model.enums.DeliveryMethod;
 import app.model.enums.OrderStatus;
 import app.model.enums.PaymentMethod;
 import app.model.enums.PaymentState;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -51,18 +50,6 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Integer id, PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, OrderStatus orderStatus,
-                 PaymentState paymentState, Integer addressId, Integer userId, double amount) {
-        this.id = id;
-        this.paymentMethod = paymentMethod;
-        this.deliveryMethod = deliveryMethod;
-        this.orderStatus = orderStatus;
-        this.paymentState = paymentState;
-        this.addressId = addressId;
-        this.userId = userId;
-        this.amount = amount;
-    }
-
     public Date getDatetime() {
         return datetime;
     }
@@ -70,10 +57,6 @@ public class Order implements Serializable {
     public void setDatetime(Date date) {
         this.datetime = date;
     }
-
-//    public void setOrderDate(Date date){
-//        this.datetime = date;
-//    }
 
     public Address getAddress() {
         return address;
@@ -162,7 +145,80 @@ public class Order implements Serializable {
         return orderList;
     }
 
+    public static Order.Builder newBuilder() {
+        return new Order().new Builder();
+    }
+
     public void setOrderList(List<OrderList> orderList) {
         this.orderList = orderList;
+    }
+
+    public class Builder {
+        private Builder() {
+        }
+
+        public Builder setId(Integer id) {
+            Order.this.id = id;
+            return this;
+        }
+
+        public Builder setPaymentMethod(PaymentMethod paymentMethod) {
+            Order.this.paymentMethod = paymentMethod;
+            return this;
+        }
+
+        public Builder setDeliveryMethod(DeliveryMethod deliveryMethod) {
+            Order.this.deliveryMethod = deliveryMethod;
+            return this;
+        }
+
+        public Builder setOrderStatus(OrderStatus orderStatus) {
+            Order.this.orderStatus = orderStatus;
+            return this;
+        }
+
+        public Builder setPaymentState(PaymentState paymentState) {
+            Order.this.paymentState = paymentState;
+            return this;
+        }
+
+        public Builder setAddress(Address address) {
+            Order.this.address = address;
+            return this;
+        }
+
+        public Builder setAddressId(Integer id) {
+            Order.this.addressId = id;
+            return this;
+        }
+
+        public Builder setUserId(Integer id) {
+            Order.this.userId = id;
+            return this;
+        }
+
+        public Builder setAmount(Double amount) {
+            Order.this.amount = amount;
+            return this;
+        }
+
+        public Builder setOrderNum(Integer orderNum) {
+            Order.this.orderNum = orderNum;
+            return this;
+        }
+
+        public Builder setOrderList(List<OrderList> list) {
+            Order.this.orderList = list;
+            return this;
+        }
+
+        public Builder setDatetime(Date datetime) {
+            Order.this.datetime = datetime;
+            return this;
+        }
+
+        public Order build() {
+            return Order.this;
+        }
     }
 }

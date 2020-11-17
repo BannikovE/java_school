@@ -4,8 +4,6 @@ import app.model.enums.UserRole;
 import app.model.enums.UserStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -61,17 +59,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-
-    public User(String firstName, String lastName, Date dateOfBirth, String email,
-                String password, UserRole role, UserStatus status) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.status = status;
-    }
 
     public String getStringDateOfBirth() {
         return stringDateOfBirth;
@@ -144,4 +131,67 @@ public class User implements Serializable {
     public User() {
     }
 
+    public static User.Builder newBuilder() {
+        return new User().new Builder();
+    }
+
+    public class Builder {
+        private Builder() {
+
+        }
+
+        public Builder setId(Integer id) {
+            User.this.id = id;
+            return this;
+        }
+
+        public Builder setFirstName(String firstName) {
+            User.this.firstName = firstName;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            User.this.lastName = lastName;
+            return this;
+        }
+
+        public Builder setDateOfBirth(Date dateOfBirth) {
+            User.this.dateOfBirth = dateOfBirth;
+            return this;
+        }
+
+        public Builder setStringDateOfBirth(String dateOfBirth) {
+            User.this.stringDateOfBirth = dateOfBirth;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            User.this.email = email;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            User.this.password = password;
+            return this;
+        }
+
+        public Builder setPasswordConfirm(String password) {
+            User.this.passwordConfirm = password;
+            return this;
+        }
+
+        public Builder setRole(UserRole userRole) {
+            User.this.role = userRole;
+            return this;
+        }
+
+        public Builder setStatus(UserStatus userStatus) {
+            User.this.status = userStatus;
+            return this;
+        }
+
+        public User build() {
+            return User.this;
+        }
+    }
 }

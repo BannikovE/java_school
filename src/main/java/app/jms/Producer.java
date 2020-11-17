@@ -1,16 +1,16 @@
 package app.jms;
 
-import app.model.Order;
-import app.model.Product;
 
-import javax.jms.*;
+import javax.jms.Queue;
+import javax.jms.QueueConnection;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSession;
+import javax.jms.QueueSender;
+import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.util.Hashtable;
-import java.util.Map;
 
-//@RequestScoped
 public class Producer {
 
    public static void produceMessage()  {
@@ -31,10 +31,8 @@ public class Producer {
 
             QueueSender sender = session.createSender(queue);
             TextMessage message = session.createTextMessage("Order created");
-//            ObjectMessage objectMessage = session.createObjectMessage(order);
 
             sender.send(message);
-//            sender.send(objectMessage);
 
             sender.close();
             session.close();

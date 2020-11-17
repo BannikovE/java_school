@@ -32,17 +32,6 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String name, Integer price, Integer size,
-                   String brand, String color, Category category, Integer quantityInStock) {
-        this.name = name;
-        this.price = price;
-        this.size = size;
-        this.brand = brand;
-        this.color = color;
-        this.category = category;
-        this.quantityInStock = quantityInStock;
-    }
-
     public Integer getQuantityInStock() {
         return quantityInStock;
     }
@@ -128,5 +117,65 @@ public class Product implements Serializable {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public static Builder newBuilder() {
+        return new Product().new Builder();
+    }
+
+    public class Builder {
+        private Builder() {
+        }
+
+        public Builder setId(Integer id) {
+            Product.this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            Product.this.name = name;
+            return this;
+        }
+
+        public Builder setPrice(Integer price) {
+            Product.this.price = price;
+            return this;
+        }
+
+        public Builder setSize(Integer size) {
+            Product.this.size = size;
+            return this;
+        }
+
+        public Builder setBrand(String brand) {
+            Product.this.brand = brand;
+            return this;
+        }
+
+        public Builder setColor(String color) {
+            Product.this.color = color;
+            return this;
+        }
+
+        public Builder setQuantityInStock(Integer quantityInStock) {
+            Product.this.quantityInStock = quantityInStock;
+            return this;
+        }
+
+        public Builder setCategory(Category category) {
+            Product.this.category = category;
+            return this;
+        }
+
+        public Builder setCategoryId(Integer categoryId) {
+            Product.this.categoryId = categoryId;
+            return this;
+        }
+
+
+        public Product build() {
+            return Product.this;
+        }
+
     }
 }
