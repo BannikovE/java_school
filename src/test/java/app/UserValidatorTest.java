@@ -17,7 +17,8 @@ import org.springframework.validation.Errors;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 public class UserValidatorTest {
@@ -48,16 +49,20 @@ public class UserValidatorTest {
     @BeforeEach
     public void setUp() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        user = new User();
-        user.setPassword(PASSWORD_VALID);
-        user.setEmail(EMAIL_VALID);
-        user.setLastName(LAST_NAME_VALID);
-        user.setFirstName(FIRST_NAME_VALID);
-        user.setPasswordConfirm(PASSWORD_CONFIRM_VALID);
-        user.setStringDateOfBirth(DATE_VALID);
-        user.setDateOfBirth(sdf.parse(DATE_VALID));
-        user.setRole(UserRole.USER);
-        user.setStatus(UserStatus.ACTIVE);
+
+        user = User.newBuilder()
+                .id(1)
+                .dateOfBirth(sdf.parse(DATE_VALID))
+                .email(EMAIL_VALID)
+                .firstName(FIRST_NAME_VALID)
+                .lastName(LAST_NAME_VALID)
+                .password(PASSWORD_VALID)
+                .passwordConfirm(PASSWORD_CONFIRM_VALID)
+                .role(UserRole.USER)
+                .status(UserStatus.ACTIVE)
+                .stringDateOfBirth(DATE_VALID)
+                .build();
+
         errors = new BeanPropertyBindingResult(user, "user");
     }
 
@@ -71,7 +76,6 @@ public class UserValidatorTest {
     public void validateUserFirstNameEmpty() {
         user.setFirstName(EMPTY_STRING);
         userValidator.validate(user, errors);
-        assertTrue(errors.hasErrors());
         assertNotNull(errors.getFieldError("firstName"));
     }
 }

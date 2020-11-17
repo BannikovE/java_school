@@ -1,5 +1,6 @@
 package app.model;
 
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -115,14 +116,55 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(String country, String city, int index,
-                   String street, int building, int room, User user) {
-        this.country = country;
-        this.city = city;
-        this.index = index;
-        this.street = street;
-        this.building = building;
-        this.room = room;
-        this.user = user;
+    public static Address.Builder newBuilder() {
+        return new Address().new Builder();
+    }
+
+    public class Builder {
+        private Builder() {
+
+        }
+
+        public Builder id(Integer id) {
+            Address.this.id = id;
+            return this;
+        }
+
+        public Builder country(String country) {
+            Address.this.country = country;
+            return this;
+        }
+        public Builder city(String city) {
+            Address.this.city = city;
+            return this;
+        }
+        public Builder index(Integer index) {
+            Address.this.index = index;
+            return this;
+        }
+        public Builder street(String street) {
+            Address.this.street = street;
+            return this;
+        }
+        public Builder building(Integer building) {
+            Address.this.building = building;
+            return this;
+        }
+        public Builder room(Integer room) {
+            Address.this.room = room;
+            return this;
+        }
+        public Builder user(User user) {
+            Address.this.user = user;
+            return this;
+        }
+        public Builder userId(Integer user) {
+            Address.this.userId = user;
+            return this;
+        }
+
+        public Address build() {
+            return Address.this;
+        }
     }
 }

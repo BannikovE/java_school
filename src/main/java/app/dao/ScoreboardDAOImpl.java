@@ -6,16 +6,16 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Repository
 public class ScoreboardDAOImpl implements ScoreboardDAO{
     private SessionFactory sessionFactory;
     private ProductDAO productDAO;
 
-//    private Map<Product, Integer> mapToScoreboard = new HashMap<>();
 
     @Autowired
     public void setProductDAO(ProductDAO productDAO) {
@@ -40,29 +40,5 @@ public class ScoreboardDAOImpl implements ScoreboardDAO{
         }
         return products;
     }
-
-//    @Override
-//    public void setMapToScoreboard(Map<Product, Integer> map) {
-//        mapToScoreboard = map;
-//    }
-
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public Map<Product, Integer> getTopToScoreboard() {
-//        Session session = sessionFactory.getCurrentSession();
-//        Map<Product, Integer> tenProducts = new HashMap<>();
-//        List<Integer> productIds;
-//        List<Integer> amounts;
-//        Query queryToFindProductIds = session.createNativeQuery("select id from products " +
-//                " order by price desc limit 10");
-//        Query queryToFindAmounts = session.createNativeQuery("select price from products " +
-//                " order by price desc limit 10");
-//        productIds = queryToFindProductIds.getResultList();
-//        amounts = queryToFindAmounts.getResultList();
-//        for (int i = 0; i < productIds.size(); i++){
-//            tenProducts.put(productDAO.getProductById(productIds.get(i)), amounts.get(i));
-//        }
-//        return tenProducts;
-//    }
 
 }

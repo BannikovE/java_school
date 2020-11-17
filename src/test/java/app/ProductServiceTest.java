@@ -4,7 +4,6 @@ import app.dao.CategoryDAOImpl;
 import app.dao.ProductDAOImpl;
 import app.model.Category;
 import app.model.Product;
-import app.model.ProductFilter;
 import app.model.cart.ProductDTO;
 import app.service.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,9 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -38,16 +37,17 @@ public class ProductServiceTest {
     @BeforeEach
     public void setUp() {
         Category category = new Category(1, "new");
-        product = new Product();
-        product.setId(1);
-        product.setName("name");
-        product.setQuantityInStock(10);
-        product.setColor("blue");
-        product.setSize(34);
-        product.setPrice(1000);
-        product.setBrand("GJ");
-        product.setCategory(category);
-        product.setCategoryId(category.getId());
+        product = Product.newBuilder()
+                .id(1)
+                .name("name")
+                .price(1000)
+                .brand("GJ")
+                .category(category)
+                .categoryId(category.getId())
+                .color("blue")
+                .quantityInStock(10)
+                .size(32)
+                .build();
     }
 
     @Test
@@ -66,18 +66,21 @@ public class ProductServiceTest {
 
     @Test
     public void testGetAllProducts() {
-        Product newProduct = new Product();
-        newProduct.setCategory(new Category(2, "jee"));
-        newProduct.setBrand("GJ");
-        newProduct.setPrice(1000);
-        newProduct.setSize(34);
-        newProduct.setColor("blue");
-        newProduct.setQuantityInStock(10);
-        newProduct.setName("item");
-        newProduct.setId(2);
+        Product newProduct = Product.newBuilder()
+                .id(2)
+                .name("nam")
+                .price(1020)
+                .brand("G")
+                .size(32)
+                .category(new Category(2, "jee"))
+                .categoryId(2)
+                .color("blue")
+                .build();
+
         List<Product> list = new ArrayList<>();
         list.add(product);
         list.add(newProduct);
+
         given(productDAO.allProducts(1, null)).willReturn(list);
         List<Product> expected = productService.allProducts(1, null);
         assertEquals(expected, list);

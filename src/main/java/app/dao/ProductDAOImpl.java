@@ -1,6 +1,5 @@
 package app.dao;
 
-import app.model.Category;
 import app.model.Product;
 import app.model.ProductFilter;
 import app.model.cart.ProductDTO;

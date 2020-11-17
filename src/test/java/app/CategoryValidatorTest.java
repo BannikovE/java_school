@@ -1,7 +1,6 @@
 package app;
 
 import app.model.Category;
-import app.model.Product;
 import app.service.CategoryService;
 import app.validators.CategoryValidator;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 

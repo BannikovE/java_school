@@ -1,12 +1,9 @@
 package app;
 
-import app.dao.AddressDAO;
 import app.dao.AddressDAOImpl;
 import app.model.Address;
 import app.service.AddressServiceImpl;
-import app.service.UserService;
 import app.service.UserServiceImpl;
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,9 +12,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressServiceTest {
@@ -33,15 +31,16 @@ public class AddressServiceTest {
 
     @BeforeEach
     public void setUp() {
-        address = new Address();
-        address.setCountry("Russia");
-        address.setCity("Moscow");
-        address.setStreet("Street");
-        address.setBuilding(100);
-        address.setIndex(454643);
-        address.setRoom(10);
-        address.setUserId(1);
-        address.setId(6);
+        address = Address.newBuilder()
+                .id(1)
+                .country("Russia")
+                .city("Moscow")
+                .index(456345)
+                .street("Street")
+                .building(100)
+                .room(10)
+                .userId(1)
+                .build();
     }
 
     @Test
