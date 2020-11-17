@@ -26,6 +26,7 @@ public class AppInitializer implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic dispatcher = container
                 .addServlet("dispatcher", new DispatcherServlet(context));
+        dispatcher.setInitParameter("throwExceptionIfNoHandlerFound", "true");
 
         //Кодировка
         FilterRegistration.Dynamic encodingFilter = container.addFilter("encoding-filter", new CharacterEncodingFilter());
