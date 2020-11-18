@@ -84,12 +84,5 @@ public class UserServiceTest {
         assertEquals(expected, list);
     }
 
-    @Test
-    public void testEditUser() {
-        given(userDAO.edit(user)).willReturn(user);
-        User expected = userService.edit(user);
-        assertNotNull(expected);
-        verify(userDAO).edit(any(User.class));
-    }
 
 }
