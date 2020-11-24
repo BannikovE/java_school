@@ -60,7 +60,6 @@ public class UserValidatorTest {
                 .passwordConfirm(PASSWORD_CONFIRM_VALID)
                 .role(UserRole.USER)
                 .status(UserStatus.ACTIVE)
-                .stringDateOfBirth(DATE_VALID)
                 .build();
 
         errors = new BeanPropertyBindingResult(user, "user");

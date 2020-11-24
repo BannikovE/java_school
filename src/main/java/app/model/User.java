@@ -2,6 +2,7 @@ package app.model;
 
 import app.model.enums.UserRole;
 import app.model.enums.UserStatus;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,11 +20,10 @@ public class User implements Serializable {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
-    @Transient
-    private String stringDateOfBirth;
     @Column
     private String email;
     @Column
@@ -59,14 +59,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-
-    public String getStringDateOfBirth() {
-        return stringDateOfBirth;
-    }
-
-    public void setStringDateOfBirth(String stringDateOfBirth) {
-        this.stringDateOfBirth = stringDateOfBirth;
-    }
 
     public String getPasswordConfirm() {
         return passwordConfirm;
@@ -160,10 +152,6 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder stringDateOfBirth(String dateOfBirth) {
-            User.this.stringDateOfBirth = dateOfBirth;
-            return this;
-        }
 
         public Builder email(String email) {
             User.this.email = email;

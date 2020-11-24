@@ -4,6 +4,7 @@ import app.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -12,4 +13,5 @@ public interface UserService {
     User findByEmail(String email);
     List<User> allUsers();
     User edit(User user, HttpServletRequest request);
+    Date convertStringToDate(String date);
 }
