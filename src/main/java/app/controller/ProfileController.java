@@ -7,12 +7,13 @@ import app.service.AddressService;
 import app.service.UserService;
 import app.util.AppUtils;
 import app.util.CartCacheUtils;
+import app.validators.UserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/profile")
@@ -29,7 +31,12 @@ public class ProfileController {
 
     private UserService userService;
     private AddressService addressService;
+    private UserValidator userValidator;
 
+    @Autowired
+    public void setUserValidator(UserValidator userValidator) {
+        this.userValidator = userValidator;
+    }
 
     @Autowired
     public void setAddressService(AddressService addressService) {
@@ -42,7 +49,7 @@ public class ProfileController {
     }
 
     @GetMapping
-    public ModelAndView getProfilePage(HttpServletRequest request){
+    public ModelAndView getProfilePage(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile");
         if (!AppUtils.isAuthUser()) {
@@ -76,23 +83,24 @@ public class ProfileController {
     }
 
     @PostMapping("/editProfile")
-    public ModelAndView editProduct(@ModelAttribute("user") User user){
+    public ModelAndView editProfile(@Valid @ModelAttribute("user") User user, HttpServletRequest request,
+                                    BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("profile");
-        User userAfterUpdate = userService.edit(user);
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("/editProfile");
+            return modelAndView;
+        }
+        modelAndView.setViewName("redirect:/profile");
+        User userAfterUpdate = userService.edit(user, request);
         if (userAfterUpdate != null) {
-            try {
-                modelAndView.addObject("user", userAfterUpdate);
-                SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            }
+            modelAndView.addObject("user", userAfterUpdate);
         }
         return modelAndView;
     }
 
     @GetMapping("/editAddress/{id}")
-    public ModelAndView editAddressPage(@PathVariable("id") Integer addressId){
+    public ModelAndView editAddressPage(@PathVariable("id") Integer addressId) {
         ModelAndView modelAndView = new ModelAndView();
         Address address = addressService.findAddressById(addressId);
         modelAndView.setViewName("editAddress");
@@ -101,7 +109,7 @@ public class ProfileController {
     }
 
     @PostMapping("/editAddress")
-    public ModelAndView editProduct(@ModelAttribute("address") Address address){
+    public ModelAndView editProfile(@ModelAttribute("address") Address address) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/profile");
         addressService.edit(address);
@@ -109,7 +117,7 @@ public class ProfileController {
     }
 
     @GetMapping("/addAddress/{id}")
-    public ModelAndView addAddressPage(@PathVariable("id") Integer userId){
+    public ModelAndView addAddressPage(@PathVariable("id") Integer userId) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.findById(userId);
         modelAndView.setViewName("addAddress");
@@ -118,7 +126,7 @@ public class ProfileController {
     }
 
     @PostMapping("/addAddress")
-    public ModelAndView addAddress(@ModelAttribute("address") Address address){
+    public ModelAndView addAddress(@ModelAttribute("address") Address address) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/profile");
         try {

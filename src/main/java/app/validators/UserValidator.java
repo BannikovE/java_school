@@ -2,6 +2,7 @@ package app.validators;
 
 import app.model.User;
 import app.service.UserService;
+import app.util.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -56,8 +57,8 @@ public class UserValidator implements Validator {
         } else {
             Calendar currentDate = Calendar.getInstance();
             Calendar birthday = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date dateOfBirthday = null;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 dateOfBirthday = sdf.parse(user.getStringDateOfBirth());
             } catch (ParseException e) {
@@ -76,7 +77,9 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "NotEmpty");
         }
         if (userService.findByEmail(user.getEmail()) != null) {
-            errors.rejectValue("email", "email[duplicate]");
+            if (!AppUtils.isAuthUser()) {
+                errors.rejectValue("email", "email[duplicate]");
+            }
         }
         Pattern validEmailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
                 Pattern.CASE_INSENSITIVE);

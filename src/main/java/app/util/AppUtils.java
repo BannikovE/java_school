@@ -63,7 +63,13 @@ public class AppUtils {
     }
 
     public static boolean isAuthUser() {
-        return !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+        boolean result;
+        try {
+            result = !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser");
+        } catch (RuntimeException e) {
+            result = false;
+        }
+        return result;
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map )

@@ -11,6 +11,9 @@ import app.util.AppUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -98,7 +101,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public User edit(User user) {
+    public User edit(User user, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User existUser = userDAO.findByEmail(user.getEmail());
         if (existUser != null) {
             log.info("User with login {} already exist.", user.getEmail());
@@ -106,6 +110,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRole(UserRole.USER);
         user.setStatus(UserStatus.ACTIVE);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return userDAO.edit(user);
+        User editedUser = userDAO.edit(user);
+        UserDetails userDetails = SecurityUser.fromUser(user);
+        AppUtils.setUserIdInSession(request, user.getId());
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, auth.getCredentials(), auth.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        return editedUser;
     }
 }

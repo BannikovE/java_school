@@ -11,5 +11,5 @@ public interface UserService {
     User findById(int userId);
     User findByEmail(String email);
     List<User> allUsers();
-    User edit(User user);
+    User edit(User user, HttpServletRequest request);
 }
