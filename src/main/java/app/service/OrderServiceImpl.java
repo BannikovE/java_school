@@ -10,6 +10,8 @@ import app.model.OrderList;
 import app.model.Product;
 import app.model.User;
 import app.model.cart.Cart;
+import app.model.cart.CartLine;
+import app.model.cart.ProductDTO;
 import app.model.enums.DeliveryMethod;
 import app.model.enums.PaymentMethod;
 import app.util.AppUtils;
@@ -22,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -133,6 +132,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Double getDailyIncome() {
         return orderDAO.getDailyIncome();
+    }
+
+    @Transactional
+    @Override
+    public Order repeat(DeliveryMethod deliveryMethod, PaymentMethod paymentMethod, Integer addressId,
+                        HttpServletRequest request, HttpServletResponse response, Integer orderId) {
+        Order order = orderDAO.getOrderById(orderId);
+        Cart cart = new Cart();
+        List<CartLine> cartLines = new ArrayList<>();
+        List<OrderList> orderLists = order.getOrderList();
+        for (OrderList orderList : orderLists) {
+            Product product = productDAO.getProductById(orderList.getProductId());
+            cartLines.add(new CartLine(new ProductDTO(product), orderList.getQuantity()));
+        }
+        cart.setCartLines(cartLines);
+        CartCacheUtils.putCart(request, cart);
+        return order;
     }
 
 }

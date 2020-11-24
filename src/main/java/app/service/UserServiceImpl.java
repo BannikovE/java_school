@@ -25,6 +25,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service("userService")
@@ -82,7 +85,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setStatus(UserStatus.ACTIVE);
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         Integer userId = userDAO.add(user);
-        //При успешной авторизации, если есть данные в корзине, перемещаем их в кэш, чтоб не потерять
         if (userId != null) {
             Cart cart = AppUtils.getCartFromSession(request);
             if (cart != null) {
@@ -116,5 +118,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, auth.getCredentials(), auth.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuth);
         return editedUser;
+    }
+
+    @Override
+    public Date convertStringToDate(String date) {
+        Date parsedDate = null;
+        if (date != null) {
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                parsedDate = formatter.parse(date);
+            } catch (ParseException e) {
+                e.getStackTrace();
+            }
+        }
+        return parsedDate;
     }
 }

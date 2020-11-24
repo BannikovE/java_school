@@ -19,7 +19,6 @@ public class UserDAOImpl implements UserDAO {
     private static final Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 
     private SessionFactory sessionFactory;
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -29,27 +28,12 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public Integer add(User user) {
         Session session = sessionFactory.getCurrentSession();
-        String date = user.getStringDateOfBirth();
-        try {
-            Date userDate = simpleDateFormat.parse(date);
-            user.setDateOfBirth(userDate);
-        } catch (ParseException e) {
-            log.error(e.getMessage(), e);
-        }
         return (Integer) session.save(user);
     }
 
     @Override
     public User edit(User user) {
         Session session = sessionFactory.getCurrentSession();
-        String date = user.getStringDateOfBirth();
-        Date userDate = null;
-        try {
-            userDate = simpleDateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        user.setDateOfBirth(userDate);
         return (User) session.merge(user);
     }
 

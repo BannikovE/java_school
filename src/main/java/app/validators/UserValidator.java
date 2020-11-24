@@ -52,24 +52,17 @@ public class UserValidator implements Validator {
             errors.rejectValue("lastName", "lastName[invalidValue]");
         }
 
-        if (user.getStringDateOfBirth() == null || user.getStringDateOfBirth().equals("")) {
+        if (user.getDateOfBirth() == null) {
             errors.rejectValue("dateOfBirth", "NotEmpty");
         } else {
             Calendar currentDate = Calendar.getInstance();
             Calendar birthday = Calendar.getInstance();
-            Date dateOfBirthday = null;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                dateOfBirthday = sdf.parse(user.getStringDateOfBirth());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            birthday.setTime(dateOfBirthday);
+            birthday.setTime(user.getDateOfBirth());
             if ((currentDate.get(Calendar.YEAR) == birthday.get(Calendar.YEAR) &&
                     currentDate.get(Calendar.DAY_OF_YEAR) <= birthday.get(Calendar.DAY_OF_YEAR) &&
                     currentDate.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH)) ||
                     (currentDate.get(Calendar.YEAR) < birthday.get(Calendar.YEAR))) {
-                errors.rejectValue("stringDateOfBirth", "dateOfBirth[invalidValue]");
+                errors.rejectValue("dateOfBirth", "dateOfBirth[invalidValue]");
             }
         }
 

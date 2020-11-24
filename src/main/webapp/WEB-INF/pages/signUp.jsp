@@ -39,9 +39,9 @@
             <form:errors path="lastName"></form:errors>
         </div>
         <div>
-            <form:input type="date" path="stringDateOfBirth" placeholder="Date Of Birth"
+            <form:input type="date" path="dateOfBirth" placeholder="Date Of Birth"
                         autofocus="true"></form:input>
-            <form:errors path="stringDateOfBirth"></form:errors>
+            <form:errors path="dateOfBirth"></form:errors>
         </div>
         <button type="submit">Sign Up</button>
     </form:form>

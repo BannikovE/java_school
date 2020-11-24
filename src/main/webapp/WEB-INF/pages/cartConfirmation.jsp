@@ -24,13 +24,6 @@
 
 
 <div class="customer-info-container">
-<%--    <h3>Customer Information:</h3>--%>
-<%--    <ul>--%>
-<%--        <li>Name: ${user.firstName}</li>--%>
-<%--        <li>Email: ${user.email}</li>--%>
-<%--        <li>Phone: ${cart.customerInfo.phone}</li>--%>
-<%--        <li>Address: ${cart.customerInfo.address}</li>--%>
-<%--    </ul>--%>
     <h3>Cart Summary:</h3>
     <ul>
         <li>Quantity: ${cart.quantityTotal}</li>
@@ -71,18 +64,18 @@
     <button type="submit">Send</button>
 </form:form>
 <div class="container">
-    <c:forEach items="${cart.cartLines}" var="cartLine">
+    <c:forEach items="${cart.cartLines}" var="orderList">
         <div class="product-preview-container">
             <ul>
-                <li>Name: ${cartLine.productDTO.name}</li>
+                <li>Name: ${orderList.productDTO.name}</li>
                 <li>Price: <span class="price">
-                     <fmt:formatNumber value="${cartLine.productDTO.price}" type="currency"/>
+                     <fmt:formatNumber value="${orderList.productDTO.price}" type="currency"/>
                   </span>
                 </li>
-                <li>Quantity: ${cartLine.quantity}</li>
+                <li>Quantity: ${orderList.quantity}</li>
                 <li>Subtotal:
                     <span class="subtotal">
-                       <fmt:formatNumber value="${cartLine.amount}" type="currency"/>
+                       <fmt:formatNumber value="${orderList.amount}" type="currency"/>
                     </span>
                 </li>
             </ul>
