@@ -32,6 +32,7 @@
         <th>Amount</th>
         <th>Date</th>
         <th>View</th>
+        <th>Repeat</th>
     </tr>
     <c:forEach items="${orders}" var="order">
         <tr>
@@ -48,6 +49,8 @@
             <td>${order.datetime}</td>
             <td><a href="${pageContext.request.contextPath}/orders/${order.id}">
                 View</a></td>
+            <td><a href="${pageContext.request.contextPath}/orders/repeat/${order.id}">
+                Repeat</a></td>
         </tr>
     </c:forEach>
 </table>

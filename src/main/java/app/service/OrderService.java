@@ -1,5 +1,6 @@
 package app.service;
 
+import app.model.Address;
 import app.model.Order;
 import app.model.Product;
 import app.model.User;
@@ -26,4 +27,6 @@ public interface OrderService {
     Map<User, Integer> getTenUsers();
     Double getMonthlyIncome();
     Double getDailyIncome();
+    Order repeat(DeliveryMethod deliveryMethod, PaymentMethod paymentMethod, Integer addressId,
+                 HttpServletRequest request, HttpServletResponse response, Integer orderId);
 }

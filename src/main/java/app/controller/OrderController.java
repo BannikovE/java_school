@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.model.Address;
 import app.model.Order;
 import app.model.Product;
 import app.model.User;
@@ -8,9 +9,12 @@ import app.model.enums.DeliveryMethod;
 import app.model.enums.OrderStatus;
 import app.model.enums.PaymentMethod;
 import app.model.enums.PaymentState;
+import app.service.AddressService;
 import app.service.CartService;
 import app.service.OrderService;
+import app.service.UserService;
 import app.util.AppUtils;
+import app.util.CartCacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +37,12 @@ public class OrderController {
 
     private OrderService orderService;
     private CartService cartService;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setCartService(CartService cartService) {
@@ -46,9 +56,9 @@ public class OrderController {
 
     @PostMapping("/create")
     public ModelAndView createOrder(@ModelAttribute Order orderInfo,
-                                    HttpServletRequest request, HttpServletResponse response){
+                                    HttpServletRequest request, HttpServletResponse response) {
         ModelAndView modelAndView = new ModelAndView();
-        if (!cartService.isCartValid(request)){
+        if (!cartService.isCartValid(request)) {
             List<ProductDTO> errorList = cartService.getErrorList(request);
             modelAndView.setViewName("error");
             modelAndView.addObject("errorList", errorList);
@@ -64,7 +74,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public ModelAndView getOrderListPage(HttpServletRequest request){
+    public ModelAndView getOrderListPage(HttpServletRequest request) {
         Integer userId = AppUtils.getUserIdFromSession(request);
         List<Order> orders = orderService.getOrdersByUserId(userId);
         ModelAndView modelAndView = new ModelAndView();
@@ -74,7 +84,7 @@ public class OrderController {
     }
 
     @GetMapping("/manage")
-    public ModelAndView getManagePage(){
+    public ModelAndView getManagePage() {
         List<Order> orders = orderService.getAllOrders();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("manageOrderList");
@@ -83,7 +93,7 @@ public class OrderController {
     }
 
     @GetMapping("/manage/{id}")
-    public ModelAndView getManageOrderPage(@PathVariable("id") Integer orderId){
+    public ModelAndView getManageOrderPage(@PathVariable("id") Integer orderId) {
         Order order = orderService.getOrderById(orderId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editOrder");
@@ -94,7 +104,7 @@ public class OrderController {
     }
 
     @PostMapping("/manage")
-    public ModelAndView manageOrder(@ModelAttribute("order") Order order){
+    public ModelAndView manageOrder(@ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/orders/manage");
         orderService.edit(order);
@@ -102,7 +112,7 @@ public class OrderController {
     }
 
     @GetMapping("/statistics")
-    public ModelAndView getStatisticsPage(){
+    public ModelAndView getStatisticsPage() {
         Map<Product, Integer> products = orderService.getTenProducts();
         Map<User, Integer> users = orderService.getTenUsers();
         Double monthlyIncome = orderService.getMonthlyIncome();
@@ -117,11 +127,45 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView getOrderView(@PathVariable("id") Integer id){
+    public ModelAndView getOrderView(@PathVariable("id") Integer id) {
         Order order = orderService.getOrderById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("viewOrder");
         modelAndView.addObject("order", order);
+        return modelAndView;
+    }
+
+    @GetMapping("/repeat/{id}")
+    public ModelAndView getRepeatPage(@PathVariable("id") Integer id, HttpServletRequest request) {
+        Order order = orderService.getOrderById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("repeatOrder");
+        modelAndView.addObject("order", order);
+        User user = userService.findById(AppUtils.getUserIdFromSession(request));
+        List<Address> addresses = user.getAddresses();
+        modelAndView.addObject("addresses", addresses);
+        modelAndView.addObject("deliveryMethods", DeliveryMethod.values());
+        modelAndView.addObject("paymentMethods", PaymentMethod.values());
+        return modelAndView;
+    }
+
+    @PostMapping("/repeat")
+    public ModelAndView repeatOrder(@ModelAttribute Order orderInfo,
+                                    HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        DeliveryMethod deliveryMethod = orderInfo.getDeliveryMethod();
+        PaymentMethod paymentMethod = orderInfo.getPaymentMethod();
+        orderService.repeat(deliveryMethod, paymentMethod, orderInfo.getAddressId(), request, response, orderInfo.getId());
+        if (!cartService.isCartValid(request)) {
+            List<ProductDTO> errorList = cartService.getErrorList(request);
+            modelAndView.setViewName("error");
+            modelAndView.addObject("errorList", errorList);
+            return modelAndView;
+        }
+        Order newOrder = orderService.save(deliveryMethod, paymentMethod, orderInfo.getAddressId(), request, response);
+        modelAndView.setViewName("show");
+        modelAndView.addObject("order", newOrder);
         return modelAndView;
     }
 }

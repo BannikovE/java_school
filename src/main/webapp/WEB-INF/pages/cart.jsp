@@ -11,8 +11,6 @@
 
     <title>Shopping Cart</title>
 
-    <%--    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/styles.css">--%>
-
 </head>
 <body>
 <jsp:include page="_header.jsp" />
@@ -38,17 +36,17 @@
     <form:form method="POST" modelAttribute="cart" action="${pageContext.request.contextPath}/cart/finalize">
 
         <c:set var="cartLines" value="${cart.cartLines}"/>
-        <c:forEach items="${cartLines}" var="cartLine"
+        <c:forEach items="${cartLines}" var="orderList"
                    varStatus="varStatus">
             <div class="product-preview-container">
                 <ul>
-                    <li>Id: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.id" value="${cartLine.productDTO.id}" /></li>
-                    <li>Name: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.name" value="${cartLine.productDTO.name}" /></li>
-                    <li>Price: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.price" value="${cartLine.productDTO.price}" type="currency"/></li>
-                    <li>QuantityInStock: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.quantityInStock" value="${cartLine.productDTO.quantityInStock}"/></li>
-                    <li>Quantity: <form:input path = "cartLines[${varStatus.index}].quantity" value="${cartLine.quantity}" /></li>
-                    <li>Subtotal: <form:input readonly="true" path = "cartLines[${varStatus.index}].amount" value="${cartLine.amount}" type="currency" /></li>
-                    <li><a href="${pageContext.request.contextPath}/cart/delete/${cartLine.productDTO.id}">Delete</a></li>
+                    <li>Id: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.id" value="${orderList.productDTO.id}" /></li>
+                    <li>Name: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.name" value="${orderList.productDTO.name}" /></li>
+                    <li>Price: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.price" value="${orderList.productDTO.price}" type="currency"/></li>
+                    <li>QuantityInStock: <form:input readonly="true" path = "cartLines[${varStatus.index}].productDTO.quantityInStock" value="${orderList.productDTO.quantityInStock}"/></li>
+                    <li>Quantity: <form:input path = "cartLines[${varStatus.index}].quantity" value="${orderList.quantity}" /></li>
+                    <li>Subtotal: <form:input readonly="true" path = "cartLines[${varStatus.index}].amount" value="${orderList.amount}" type="currency" /></li>
+                    <li><a href="${pageContext.request.contextPath}/cart/delete/${orderList.productDTO.id}">Delete</a></li>
                 </ul>
             </div>
         </c:forEach>
